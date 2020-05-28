@@ -25,6 +25,8 @@ class LoginTracking extends CI_Controller {
 
 	function index()
 	{
-		$this->load->view('login_tracking_view');
+        $data['title']   = "This Is Title";
+        $data['content'] = "This Is The Contents";
+		$this->load->view('login_tracking_view', $data);
 	} 
 }
