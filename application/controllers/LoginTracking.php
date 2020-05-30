@@ -18,15 +18,25 @@ class LoginTracking extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	function __construct()
-	  {
-	      parent::__construct();
-	  }
+	function __construct(){
+    	parent::__construct();
+
+    	$this->load->model('LoginTracking_model');
+	}
 
 	function index()
 	{
         $data['title']   = "This Is Title";
         $data['content'] = "This Is The Contents";
+        $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
+
 		$this->load->view('login_tracking_view', $data);
+	} 
+
+	function detail($id = NULL)
+	{
+        $data['logintracking_detail'] = $this->LoginTracking_model->get_logintracking($id);
+
+		$this->load->view('login_tracking_detail_view', $data);
 	} 
 }
