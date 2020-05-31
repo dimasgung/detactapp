@@ -32,4 +32,28 @@ class LoginTracking_model extends CI_Model {
 		
 	    return $this->db->insert('logintracking', $data);
 	}
+
+	public function delete_logintracking($logintrackingid){
+	    $this->db->where('LOGINTRACKINGID', $logintrackingid);
+	    $this->db->delete('logintracking');
+	}
+
+	public function update_logintracking(){
+	    $this->load->helper('url');
+
+	    $logintrackingid = url_title($this->input->post('logintrackingid'), 'dash', TRUE);
+
+	    $data = array(
+	        'ATTEMPTDATE' => $this->input->post('attemptdate'),
+	        'LOGINTRACKINGID' => $logintrackingid,
+	        'ATTEMPTRESULT' => $this->input->post('attemptresult'),
+	        'LOGINTRACKINGID' => $this->input->post('logintrackingid'),
+	        'ROWSTAMP' => $this->input->post('rowstamp'),
+	        'NAME' => $this->input->post('name'),
+	        'USERID' => $this->input->post('userid'),
+	    );
+
+	    $this->db->where('LOGINTRACKINGID', $logintrackingid);
+	    return $this->db->update('logintracking', $data);
+	}
 }

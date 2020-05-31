@@ -23,6 +23,6 @@
     <label for="title">Row Stamp</label>
     <input type="input" name="rowstamp" /><br />
 
-    <input type="submit" name="submit" value="Create logintrackingid" />
+    <input type="submit" name="submit" value="Create LoginTracking" />
 
 </form>

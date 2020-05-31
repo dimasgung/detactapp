@@ -18,6 +18,7 @@
             <th scope="col">User Id</th>
             <th scope="col">Name</th>
             <th scope="col">View</th>
+            <th width="200">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -29,7 +30,13 @@
 		            <th scope="row"><?php echo $row?></th>
 		            <td><?php echo $logintracking_item['USERID']?></td>
 		            <td><?php echo $logintracking_item['NAME']?></td>
-		            <td><a href="<?php echo site_url('LoginTracking/detail/'.$logintracking_item['LOGINTRACKINGID']); ?>">View detail</a></td>
+		            <td>
+		            	<a href="<?php echo site_url('LoginTracking/detail/'.$logintracking_item['LOGINTRACKINGID']); ?>">View detail</a>
+		            </td>
+		            <td>
+		            	<a href="<?php echo site_url('LoginTracking/delete/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-danger">Delete</a>
+		            	<a href="<?php echo site_url('LoginTracking/update/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-info">Update</a>
+                 	<td>
 		          </tr>
 			<?php endforeach; ?>
         </tbody>
