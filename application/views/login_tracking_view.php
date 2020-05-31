@@ -10,49 +10,32 @@
  
     <div class="container">
       <h1><?php echo $content;?></h1>
+      <a href="<?php echo site_url('LoginTracking/add'); ?>">Add Login Tracking</a>
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">User Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">View</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
+			<?php 
+				$row = 0;
+				foreach ($logintracking as $logintracking_item): 
+					$row++ ?>
+		          <tr>
+		            <th scope="row"><?php echo $row?></th>
+		            <td><?php echo $logintracking_item['USERID']?></td>
+		            <td><?php echo $logintracking_item['NAME']?></td>
+		            <td><a href="<?php echo site_url('LoginTracking/detail/'.$logintracking_item['LOGINTRACKINGID']); ?>">View detail</a></td>
+		          </tr>
+			<?php endforeach; ?>
         </tbody>
       </table>
  
     </div>
- 
-	<?php foreach ($logintracking as $news_item): ?>
-
-	        <h3><?php echo $news_item['USERID']; ?></h3>
-	        <div class="main">
-	                <?php echo $news_item['NAME']; ?>
-	        </div>
-	        <p><a href="<?php echo site_url('index.php/LoginTracking/detail/'.$news_item['LOGINTRACKINGID']); ?>">View article</a></p>
-
-	<?php endforeach; ?>
-
     <!-- load jquery js file -->
     <script src="<?php echo base_url('assets/js/jquery.min.js');?>"></script>
     <!-- load bootstrap js file -->

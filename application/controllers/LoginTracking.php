@@ -26,8 +26,8 @@ class LoginTracking extends CI_Controller {
 
 	function index()
 	{
-        $data['title']   = "This Is Title";
-        $data['content'] = "This Is The Contents";
+        $data['title']   = SITE_NAME;
+        $data['content'] = "Hasil Login Tracking";
         $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
 
 		$this->load->view('login_tracking_view', $data);
@@ -39,4 +39,29 @@ class LoginTracking extends CI_Controller {
 
 		$this->load->view('login_tracking_detail_view', $data);
 	} 
+
+	public function add()
+	{
+	    $this->load->helper('form');
+	    $this->load->library('form_validation');
+
+	    $data['title'] = SITE_NAME;
+
+	    $this->form_validation->set_rules('attemptdate', 'Attempt Date', 'required');
+	    $this->form_validation->set_rules('attemptresult', 'Attemp Result', 'required');
+	    $this->form_validation->set_rules('name', 'Name', 'required');
+	    $this->form_validation->set_rules('userid', 'User id', 'required');
+	    $this->form_validation->set_rules('logintrackingid', 'Login Tracking ID', 'required');
+	    $this->form_validation->set_rules('rowstamp', 'Row Stamp', 'required');
+
+	    if ($this->form_validation->run() === FALSE)
+	    {
+	        $this->load->view('login_tracking_add_view', $data);
+	    }
+	    else
+	    {
+	        $this->load->view('login_tracking_success_view', $data);
+	    }
+	}
+
 }

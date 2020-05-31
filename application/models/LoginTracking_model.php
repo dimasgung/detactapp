@@ -14,4 +14,22 @@ class LoginTracking_model extends CI_Model {
 		$query = $this->db->get_where('logintracking', array('logintrackingid' => $logintrackingid));
 	    return $query->row_array();
 	}
+
+	public function add_logintracking(){
+	    $this->load->helper('url');
+
+	    $logintrackingid = url_title($this->input->post('logintrackingid'), 'dash', TRUE);
+
+	    $data = array(
+	        'ATTEMPTDATE' => $this->input->post('attemptdate'),
+	        'LOGINTRACKINGID' => $logintrackingid,
+	        'ATTEMPTRESULT' => $this->input->post('attemptresult'),
+	        'LOGINTRACKINGID' => $this->input->post('logintrackingid'),
+	        'ROWSTAMP' => $this->input->post('rowstamp'),
+	        'NAME' => $this->input->post('name'),
+	        'USERID' => $this->input->post('userid'),
+	    );
+		
+	    return $this->db->insert('logintracking', $data);
+	}
 }
