@@ -46,12 +46,69 @@
 		            <td>
 		            	<a href="<?php echo site_url('LoginTracking/delete/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-danger">Delete</a>
 		            	<a href="<?php echo site_url('LoginTracking/update/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-info">Update</a>
-                 	<td>
+                 	</td>
 		          </tr>
 			<?php endforeach; ?>
         </tbody>
       </table>
- 
+       <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">DataTable with default features</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>View</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                <?php 
+                  $row = 0;
+                  foreach ($logintracking as $logintracking_item): 
+                  $row++ ?>
+
+                  <tr>
+                    <td><?php echo $row?></td>
+                    <td><?php echo $logintracking_item['USERID']?></td>
+                    <td><?php echo $logintracking_item['NAME']?></td>
+                    <td>
+                      <a href="<?php echo site_url('LoginTracking/detail/'.$logintracking_item['LOGINTRACKINGID']); ?>">View detail</a>
+                    </td>
+                    <td>
+                      <a href="<?php echo site_url('LoginTracking/delete/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-danger">Delete</a>
+                      <a href="<?php echo site_url('LoginTracking/update/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-info">Update</a>
+                    </td>
+                  </tr>
+
+                  <?php endforeach; ?>
+
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>#</th>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>View</th>
+                    <th>Action</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>
