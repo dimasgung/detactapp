@@ -37,7 +37,7 @@ class LoginTracking extends CI_Controller {
 	{
         $data['title']   = SITE_NAME;
         $data['content'] = "Hasil Login Tracking";
-        $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
+        // $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
 
         $data_sidebar['menu_active'] = 'Login Tracking';
         $data_sidebar['sub_menu_active'] = 'Login Tracking Data';
@@ -48,6 +48,33 @@ class LoginTracking extends CI_Controller {
 		$this->load->view('template/footer_view');
 
 	} 
+
+	function get_data_logintracking()
+    {
+        $list = $this->LoginTracking_model->get_logintracking_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $field) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $field->ATTEMPTDATE;
+            $row[] = $field->ATTEMPTRESULT;
+            $row[] = $field->NAME;
+            $row[] = $field->USERID;
+ 
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->LoginTracking_model->count_all(),
+            "recordsFiltered" => $this->LoginTracking_model->count_filtered(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+    }
 
 	function detail($id = NULL)
 	{

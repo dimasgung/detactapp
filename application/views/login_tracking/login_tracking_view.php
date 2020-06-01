@@ -20,8 +20,8 @@
 
     <!-- Main content -->
     <section class="content">
-      <a href="<?php echo site_url('LoginTracking/add'); ?>" class="btn btn-sm btn-success">Add Login Tracking</a>
        <div class="container-fluid">
+      <a href="<?php echo site_url('LoginTracking/add'); ?>" class="btn btn-sm btn-success">Processing Analytics Data</a>
         <div class="row">
           <div class="col-12">
             <div class="card">
@@ -30,49 +30,30 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>View</th>
-                    <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-
-                <?php 
-                  $row = 0;
-                  foreach ($logintracking as $logintracking_item): 
-                  $row++ ?>
-
-                  <tr>
-                    <td><?php echo $row?></td>
-                    <td><?php echo $logintracking_item['USERID']?></td>
-                    <td><?php echo $logintracking_item['NAME']?></td>
-                    <td>
-                      <a href="<?php echo site_url('LoginTracking/detail/'.$logintracking_item['LOGINTRACKINGID']); ?>">View detail</a>
-                    </td>
-                    <td>
-                      <a href="<?php echo site_url('LoginTracking/delete/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-danger">Delete</a>
-                      <a href="<?php echo site_url('LoginTracking/update/'.$logintracking_item['LOGINTRACKINGID']);?>" class="btn btn-sm btn-info">Update</a>
-                    </td>
-                  </tr>
-
-                  <?php endforeach; ?>
-
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>#</th>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>View</th>
-                    <th>Action</th>
-                  </tr>
-                  </tfoot>
+                <table id="table" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Attempt Date</th>
+                            <th>Attempt Result</th>
+                            <th>Name</th>
+                            <th>User ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+         
+                    <tfoot>
+                        <tr>
+                            <th>No</th>
+                            <th>Attempt Date</th>
+                            <th>Attempt Result</th>
+                            <th>Name</th>
+                            <th>User ID</th>
+                        </tr>
+                    </tfoot>
                 </table>
+
               </div>
               <!-- /.card-body -->
             </div>
@@ -82,4 +63,35 @@
     </section>
     <!-- /.content -->
   </div>
-
+ 
+<script src="<?php echo base_url();?>assets/AdminLTE/plugins/jquery/jquery.min.js"></script>
+<script src="<?php echo base_url();?>assets/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    var table;
+    $(document).ready(function() {
+ 
+        //datatables
+        table = $('#table').DataTable({ 
+ 
+            "processing": true, 
+            "serverSide": true, 
+            "order": [], 
+             
+            "ajax": {
+                "url": "<?php echo site_url('LoginTracking/get_data_logintracking')?>",
+                "type": "POST",
+            },
+ 
+             
+            "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+            },
+            ],
+ 
+        });
+ 
+    });
+ 
+</script>
