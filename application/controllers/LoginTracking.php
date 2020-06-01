@@ -66,6 +66,9 @@ class LoginTracking extends CI_Controller {
 
 	    $data['title'] = SITE_NAME;
 
+        $data_sidebar['menu_active'] = 'Login Tracking';
+        $data_sidebar['sub_menu_active'] = 'Login Tracking Data';
+
 	    $this->form_validation->set_rules('attemptdate', 'Attempt Date', 'required');
 	    $this->form_validation->set_rules('attemptresult', 'Attemp Result', 'required');
 	    $this->form_validation->set_rules('name', 'Name', 'required');
@@ -77,7 +80,7 @@ class LoginTracking extends CI_Controller {
 	    {
 
 			$this->load->view('template/navbar_view');
-			$this->load->view('template/sidebar_view');
+			$this->load->view('template/sidebar_view', $data_sidebar);
 	        $this->load->view('login_tracking/login_tracking_add_view', $data);
 			$this->load->view('template/footer_view');
 	    }
@@ -85,9 +88,8 @@ class LoginTracking extends CI_Controller {
 	    {
 	        $data['insert_id'] = $this->LoginTracking_model->add_logintracking();
 
-
 			$this->load->view('template/navbar_view');
-			$this->load->view('template/sidebar_view');
+			$this->load->view('template/sidebar_view', $data_sidebar);
 	        $this->load->view('login_tracking/login_tracking_success_view', $data);
 			$this->load->view('template/footer_view');
 	    }
