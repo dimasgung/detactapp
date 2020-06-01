@@ -20,6 +20,13 @@ class Dashboard extends CI_Controller {
 
 	function index()
 	{
+
+		$data_sidebar['menu_active'] = 'Dashboard';
+		$data_sidebar['sub_menu_active'] = '';
+
+		$this->load->view('template/navbar_view');
+		$this->load->view('template/sidebar_view', $data_sidebar);
 		$this->load->view('dashboard/dashboard_home_view');
+		$this->load->view('template/footer_view');
 	}
 }

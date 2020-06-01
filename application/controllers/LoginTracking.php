@@ -39,14 +39,24 @@ class LoginTracking extends CI_Controller {
         $data['content'] = "Hasil Login Tracking";
         $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
 
-		$this->load->view('login_tracking_view', $data);
+        $data_sidebar['menu_active'] = 'Login Tracking';
+        $data_sidebar['sub_menu_active'] = 'Login Tracking Data';
+
+		$this->load->view('template/navbar_view');
+		$this->load->view('template/sidebar_view', $data_sidebar);
+		$this->load->view('login_tracking/login_tracking_view', $data);
+		$this->load->view('template/footer_view');
+
 	} 
 
 	function detail($id = NULL)
 	{
         $data['logintracking_detail'] = $this->LoginTracking_model->get_logintracking($id);
 
-		$this->load->view('login_tracking_detail_view', $data);
+		$this->load->view('template/navbar_view');
+		$this->load->view('template/sidebar_view');
+		$this->load->view('login_tracking/login_tracking_detail_view', $data);
+		$this->load->view('template/footer_view');
 	} 
 
 	function add()
@@ -65,12 +75,21 @@ class LoginTracking extends CI_Controller {
 
 	    if ($this->form_validation->run() === FALSE)
 	    {
-	        $this->load->view('login_tracking_add_view', $data);
+
+			$this->load->view('template/navbar_view');
+			$this->load->view('template/sidebar_view');
+	        $this->load->view('login_tracking/login_tracking_add_view', $data);
+			$this->load->view('template/footer_view');
 	    }
 	    else
 	    {
 	        $data['insert_id'] = $this->LoginTracking_model->add_logintracking();
-	        $this->load->view('login_tracking_success_view', $data);
+
+
+			$this->load->view('template/navbar_view');
+			$this->load->view('template/sidebar_view');
+	        $this->load->view('login_tracking/login_tracking_success_view', $data);
+			$this->load->view('template/footer_view');
 	    }
 	}
 
@@ -94,7 +113,12 @@ class LoginTracking extends CI_Controller {
 	            'userid'     		=> $logintracking_detail['USERID'],
 	            'rowstamp'		    => $logintracking_detail['ROWSTAMP']
 	        );
-	        $this->load->view('edit_product_view',$data);
+
+
+			$this->load->view('template/navbar_view');
+			$this->load->view('template/sidebar_view');
+	        $this->load->view('login_tracking/edit_product_view',$data);
+			$this->load->view('template/footer_view');
 	    }else{
 	        echo "Data Was Not Found";
 	    }
@@ -129,7 +153,11 @@ class LoginTracking extends CI_Controller {
 		            'userid'     		=> $logintracking_detail['USERID'],
 		            'rowstamp'		    => $logintracking_detail['ROWSTAMP']
 		        );
-		        $this->load->view('login_tracking_edit_view',$data);
+
+				$this->load->view('template/navbar_view');
+				$this->load->view('template/sidebar_view');		        
+		        $this->load->view('login_tracking/login_tracking_edit_view',$data);
+				$this->load->view('template/footer_view');
 		    }else{
 		        echo "Data Was Not Found";
 		    }

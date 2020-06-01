@@ -1,16 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title><?php echo $title;?></title>
-    <!-- load bootstrap css file -->
-    <link href="<?php echo base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
-  </head>
-  <body>
- 
-    <div class="container">
-      <h1><?php echo $content;?></h1>
-      <a href="<?php echo site_url('LoginTracking/add'); ?>">Add Login Tracking</a>
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Login Tracking Data</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="<?php echo base_url();?>Dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Login Tracking</a></li>
+              <li class="breadcrumb-item active">Login Tracking Data</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <a href="<?php echo site_url('LoginTracking/add'); ?>" class="btn btn-sm btn-success">Add Login Tracking</a>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -42,10 +52,7 @@
         </tbody>
       </table>
  
-    </div>
-    <!-- load jquery js file -->
-    <script src="<?php echo base_url('assets/js/jquery.min.js');?>"></script>
-    <!-- load bootstrap js file -->
-    <script src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
-  </body>
-</html>
+    </section>
+    <!-- /.content -->
+  </div>
+
