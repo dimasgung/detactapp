@@ -201,10 +201,72 @@ class LoginTracking extends CI_Controller {
 
 	function analyticProcessing(){
 		$data = array(
-	        'ATTEMPTDATE' => $this->input->post('attemptdate'),
+	        'PROCESSED_ATTEMPT_DATE' => $this->input->post('processed_attempt_date'),
 	        'APLIKASI' => $this->input->post('aplikasi')
 	    );
 
-	    echo "Deteksi sharing account data untuk aplikasi ". $data['APLIKASI'] ." pada tanggal ". $data['ATTEMPTDATE'] . ' sedang diproses';
+	   	$this->load->model('LoginTrackingHistory_model');
+
+	   	$result = $this->LoginTrackingHistory_model->get_logintracking_history($data['PROCESSED_ATTEMPT_DATE']);
+
+	   	if($result == null){
+
+			$response_API = 'success';
+	   	} else {
+	   		$response_API = 'failed';
+	   	}
+
+		// cek apakah sudah ada data tanggal prosessed tersebut
+		// jika sudah ada, gagal
+
+	    //Prosess call API model analytic
+
+
+		if($response_API == 'success'){
+
+	        $data_sidebar['menu_active'] = 'Login Tracking';
+	        $data_sidebar['sub_menu_active'] = 'Login Tracking History';
+
+	        $data_success['message'] = "Deteksi sharing account data untuk aplikasi <b>". $data['APLIKASI'] ."</b> pada tanggal <b>". $data['PROCESSED_ATTEMPT_DATE'] . '</b> sedang diproses';
+
+
+	        $data['insert_id'] = $this->LoginTrackingHistory_model->add_logintracking_history($data);
+
+			$this->load->view('template/navbar_view');
+			$this->load->view('template/sidebar_view', $data_sidebar);
+			$this->load->view('template/success_information', $data_success);
+	        $this->load->view('login_tracking_history/login_tracking_history_view', $data);
+			$this->load->view('template/footer_view');
+		} else {
+
+			redirect('LoginTrackingHistory');
+		}
 	}
+
+	// function get_data_logintracking_history()
+ //    {
+ //        $list = $this->LoginTracking_model->get_logintracking_history_datatables();
+ //        $data = array();
+ //        $no = $_POST['start'];
+ //        foreach ($list as $field) {
+ //            $no++;
+ //            $row = array();
+ //            $row[] = $no;
+ //            $row[] = $field->ATTEMPTDATE;
+ //            $row[] = $field->APLIKASI;
+ //            $row[] = $field->STATUS;
+ 
+ //            $data[] = $row;
+ //        }
+ 
+ //        $output = array(
+ //            "draw" => $_POST['draw'],
+ //            "recordsTotal" => $this->LoginTracking_model->count_all(),
+ //            "recordsFiltered" => $this->LoginTracking_model->count_filtered(),
+ //            "data" => $data,
+ //        );
+ //        //output dalam format JSON
+ //        echo json_encode($output);
+ //    }
+
 }

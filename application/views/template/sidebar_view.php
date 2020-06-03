@@ -50,7 +50,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url();?>LoginTracking/history" class="nav-link <?php echo ($sub_menu_active == 'Login Tracking History'? 'active' : ''); ?>">
+                <a href="<?php echo base_url();?>LoginTrackingHistory" class="nav-link <?php echo ($sub_menu_active == 'Login Tracking History'? 'active' : ''); ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Login Tracking History</p>
                 </a>

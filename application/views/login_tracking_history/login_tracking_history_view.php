@@ -5,13 +5,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Login Tracking Data</h1>
+            <h1>Login Tracking History</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?php echo base_url();?>Dashboard">Home</a></li>
               <li class="breadcrumb-item"><a href="#">Login Tracking</a></li>
-              <li class="breadcrumb-item active">Login Tracking Data</li>
+              <li class="breadcrumb-item active">Login Tracking History</li>
             </ol>
           </div>
         </div>
@@ -22,50 +22,20 @@
     <section class="content">
        <div class="container-fluid">
         <div class="row">
-
-          <div class="col-6">
-              <div class="card col-6">
-                  <form action="<?php echo base_url();?>LoginTracking/analyticProcessing" method="post">
-                  <!-- select -->
-                    <div class="form-group">
-                        <label>Tanggal Login</label>
-                        <select class="form-control" name='processed_attempt_date'>
-                          <?php 
-                            $i = 0;
-                            foreach ($option_date as $option_date_item): ?>
-                            <option value='<?php echo ($option_date_item['attemptdate']) ?>'><?php echo ($option_date_item['attemptdate']) ?></option>
-                          <?php 
-                              $i++;
-                              endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Aplikasi</label>
-                        <select class="form-control" name='aplikasi'>
-                            <option value='NOSSA'>NOSSA</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-sm btn-success">Processing Sharing Account Analytics</button>
-                    </div>
-                  </form>
-              </div>
-          </div>
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Login Tracking Data</h3>
+                <h3 class="card-title">Login Tracking History</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="table" class="display" cellspacing="0" width="100%">
+                <table id="table" class="table table-striped" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Attempt Date</th>
-                            <th>Attempt Result</th>
-                            <th>Name</th>
-                            <th>User ID</th>
+                            <th>Processed Attempt Date</th>
+                            <th>Aplikasi</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,10 +44,9 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Attempt Date</th>
-                            <th>Attempt Result</th>
-                            <th>Name</th>
-                            <th>User ID</th>
+                            <th>Processed Attempt Date</th>
+                            <th>Aplikasi</th>
+                            <th>Status</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -106,7 +75,7 @@
             "order": [], 
              
             "ajax": {
-                "url": "<?php echo site_url('LoginTracking/get_data_logintracking')?>",
+                "url": "<?php echo site_url('LoginTrackingHistory/get_data_logintracking_history')?>",
                 "type": "POST",
             },
  
