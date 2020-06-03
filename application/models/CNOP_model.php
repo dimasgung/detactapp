@@ -1,5 +1,5 @@
 <?php
-class LoginTracking_model extends CI_Model {
+class CNOP_model extends CI_Model {
 
     var $table = 'logintracking'; //nama tabel dari database
     var $column_order = array(null, 'ATTEMPTDATE', 'ATTEMPTRESULT', 'NAME','USERID'); //field yang ada di table user
@@ -122,16 +122,4 @@ class LoginTracking_model extends CI_Model {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
-
-    public function get_date_from_current_logintracking_data(){
-        // $SQL = "select distinct DATE(ATTEMPTDATE) from logintracking"
-        // $query = $this->db->query($SQL);
-
-        $query = $this->db->select("distinct DATE(ATTEMPTDATE) as attemptdate");
-        $this->db->from($this->table);
-        $query=$this->db->get();
-
-        return $query->result_array();
-    }
-
 }

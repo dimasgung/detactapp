@@ -38,6 +38,7 @@ class LoginTracking extends CI_Controller {
         $data['title']   = SITE_NAME;
         $data['content'] = "Hasil Login Tracking";
         // $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
+        $data['option_date'] = $this->LoginTracking_model->get_date_from_current_logintracking_data();
 
         $data_sidebar['menu_active'] = 'Login Tracking';
         $data_sidebar['sub_menu_active'] = 'Login Tracking Data';
@@ -196,5 +197,14 @@ class LoginTracking extends CI_Controller {
 	        $data['insert_id'] = $this->LoginTracking_model->update_logintracking();
 		    redirect('LoginTracking');
 	    }
+	}
+
+	function analyticProcessing(){
+		$data = array(
+	        'ATTEMPTDATE' => $this->input->post('attemptdate'),
+	        'APLIKASI' => $this->input->post('aplikasi')
+	    );
+
+	    echo "Deteksi sharing account data untuk aplikasi ". $data['APLIKASI'] ." pada tanggal ". $data['ATTEMPTDATE'] . ' sedang diproses';
 	}
 }
