@@ -44,9 +44,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>120</h3>
+                <h3>428</h3>
 
-                <p>Akun Masih Terdeteksi Sharing</p>
+                <p>Akun Terdeteksi Sharing</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -61,7 +61,7 @@
               <div class="inner">
                 <h3>44</h3>
 
-                <p>Akun Belum Konfirmasi Sharing</p>
+                <p>Akun Belum Melakukan Konfirmasi</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>

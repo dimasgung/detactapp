@@ -68,13 +68,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../layout/top-nav.html" class="nav-link <?php echo ($sub_menu_active == 'Shared Account'? 'active' : ''); ?>">
+                <a href="<?php echo base_url();?>AnalyticResult" class="nav-link <?php echo ($sub_menu_active == 'Shared Account'? 'active' : ''); ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Shared Account</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../layout/top-nav-sidebar.html" class="nav-link <?php echo ($sub_menu_active == 'Follow Up'? 'active' : ''); ?>">
+                <a href="<?php echo base_url();?>FollowUp" class="nav-link <?php echo ($sub_menu_active == 'Follow Up'? 'active' : ''); ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Follow Up</p>
                 </a>

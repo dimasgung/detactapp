@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class LoginTrackingHistory extends CI_Controller {
+class AnalyticResult extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -21,7 +21,7 @@ class LoginTrackingHistory extends CI_Controller {
 	function __construct(){
     	parent::__construct();
 
-    	$this->load->model('LoginTrackingHistory_model');
+    	$this->load->model('AnalyticResult_model');
         $this->load->library(array('form_validation','ion_auth'));
 
     	if (!$this->ion_auth->logged_in()) {//cek login ga?
@@ -40,47 +40,35 @@ class LoginTrackingHistory extends CI_Controller {
         // $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
         // $data['option_date'] = $this->LoginTracking_model->get_date_from_current_logintracking_data();
 
-        $data_sidebar['menu_active'] = 'Login Tracking';
-        $data_sidebar['sub_menu_active'] = 'Login Tracking History';
+        $data_sidebar['menu_active'] = 'Analytic Result';
+        $data_sidebar['sub_menu_active'] = 'Shared Account';
 
 		$this->load->view('template/navbar_view');
 		$this->load->view('template/sidebar_view', $data_sidebar);
-		$this->load->view('login_tracking_history/login_tracking_history_view', $data);
+		$this->load->view('analytic_result/analytic_result_view', $data);
 		$this->load->view('template/footer_view');
 
 	} 
 
-	function get_data_logintracking_history()
+	function get_data_analytic_result()
     {
-        $list = $this->LoginTrackingHistory_model->get_logintracking_history_datatables();
+        $list = $this->AnalyticResult_model->get_analytic_result_datatables();
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $field->PROCESSED_ATTEMPT_DATE;
+            $row[] = $field->ATTEMPTDATE;
             $row[] = $field->APLIKASI;
+            $row[] = $field->USERID;
 
-            if($field->STATUS == 'INPROGRESS'){
-            	$row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS .'</a>';       
-            	$row[] = '';
+            if($field->PREDICTION == 0){
+                $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->PREDICTION_RESULT.'</a>';                   
             }
 
-            if($field->STATUS == 'FAILED'){
-            	$row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS .'</a>';       
-            	$row[] = '';       
-            }
-
-            if($field->STATUS == 'SUCCESS'){
-            	$row[] = '<a href="#" class="btn btn-sm btn-success">'.$field->STATUS .'</a>';       
-            	$row[] = '<a href="'. base_url().'AnalyticResult" class="btn btn-link">Lihat Hasil</a>';
-            }
-
-
-            if($field->STATUS == 'DONE'){
-                $row[] = '<a href="#" class="btn btn-sm btn-secondary">'.$field->STATUS .'</a>';       
-                $row[] = '';
+            if($field->PREDICTION == 1){
+                $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->PREDICTION_RESULT.'</a>';       
             }
 
             $data[] = $row;
@@ -88,8 +76,8 @@ class LoginTrackingHistory extends CI_Controller {
  
         $output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->LoginTrackingHistory_model->count_all(),
-            "recordsFiltered" => $this->LoginTrackingHistory_model->count_filtered(),
+            "recordsTotal" => $this->AnalyticResult_model->count_all(),
+            "recordsFiltered" => $this->AnalyticResult_model->count_filtered(),
             "data" => $data,
         );
         //output dalam format JSON
