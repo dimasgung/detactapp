@@ -133,17 +133,4 @@ class LoginTracking_model extends CI_Model {
 
         return $query->result_array();
     }
-
-    public function add_logintracking_history($data_source){
-        $this->load->helper('url');
-
-        $data = array(
-            'PROCESSED_ATTEMPT_DATE' => $data_source('PROCESSED_ATTEMPT_DATE'),
-            'APLIKASI' => $data_source('APLIKASI'),
-            'STATUS' => 'INPROGRESS'
-        );
-        
-        return $this->db->insert('logintracking_history', $data);
-    }
-
 }
