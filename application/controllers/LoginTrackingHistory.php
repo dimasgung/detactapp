@@ -61,7 +61,21 @@ class LoginTrackingHistory extends CI_Controller {
             $row[] = $no;
             $row[] = $field->PROCESSED_ATTEMPT_DATE;
             $row[] = $field->APLIKASI;
-            $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS .'</a>';
+
+            if($field->STATUS == 'INPROGRESS'){
+            	$row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS .'</a>';       
+            	$row[] = '';
+            }
+
+            if($field->STATUS == 'FAILED'){
+            	$row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS .'</a>';       
+            	$row[] = '';       
+            }
+
+            if($field->STATUS == 'DONE'){
+            	$row[] = '<a href="#" class="btn btn-sm btn-success">'.$field->STATUS .'</a>';       
+            	$row[] = '<a href="<?php echo base_url();?>AnalyticResult" class="btn btn-link">Lihat Hasil</a>';
+            }
 
             $data[] = $row;
         }
