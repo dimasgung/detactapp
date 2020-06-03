@@ -81,4 +81,14 @@ class AnalyticResult_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
+    public function get_date_from_current_analytic_result_data(){
+        // $SQL = "select distinct DATE(ATTEMPTDATE) from logintracking"
+        // $query = $this->db->query($SQL);
+
+        $query = $this->db->select("distinct DATE(ATTEMPTDATE) as attemptdate");
+        $this->db->from($this->table);
+        $query=$this->db->get();
+
+        return $query->result_array();
+    }
 }

@@ -38,7 +38,7 @@ class AnalyticResult extends CI_Controller {
         $data['title']   = SITE_NAME;
         $data['content'] = "Login Tracking History";
         // $data['logintracking'] = $this->LoginTracking_model->get_logintracking();
-        // $data['option_date'] = $this->LoginTracking_model->get_date_from_current_logintracking_data();
+        $data['option_date'] = $this->AnalyticResult_model->get_date_from_current_analytic_result_data();
 
         $data_sidebar['menu_active'] = 'Analytic Result';
         $data_sidebar['sub_menu_active'] = 'Shared Account';
