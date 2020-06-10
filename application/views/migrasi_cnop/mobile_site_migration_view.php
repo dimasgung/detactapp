@@ -112,7 +112,7 @@
               <form class="form-horizontal">
               <div class="modal-body">
                                      
-                      <div class="alert alert-primary" id="loading-text-modal"><p>Sukses : 0 </p></div>
+                      <div class="alert alert-success" id="loading-text-modal"><p>Sukses : 0 </p></div>
                       <div class="alert alert-danger" id="loading-text-modal-error"><p>Failed : 0</p></div>
                                    
               </div>
@@ -146,7 +146,7 @@
                   "url": "<?php echo site_url('CNOP/get_data_mobile_site')?>",
                   "type": "POST",
               },
-              "lengthMenu": [10, 20, 50, 100, 200, 500,1000,2000,5000],
+              "lengthMenu": [10, 20, 50, 100, 200, 500,1000,1500],
                
               "columnDefs": [
               { 
@@ -203,7 +203,7 @@
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
-                    hide_modal();
+                    finish_modal();
                   }
 
                 },
@@ -214,7 +214,7 @@
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
-                    hide_modal();
+                    finish_modal();
                   }
 
                 }
@@ -225,17 +225,17 @@
           }
   
           $.when.apply(null, promises).done(function() {
-            alert('Data selesai di proses');
             
-            hide_modal();
+            finish_modal();
 
-            location.reload();
           })
       });
 
-      function hide_modal(){
+      function finish_modal(){
+        alert('Data selesai di proses');
         $('#loading-create').modal('hide');
         $('#ModalCreateAll').modal('hide');
+        location.reload();
       }
 
     });
