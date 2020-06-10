@@ -19,9 +19,11 @@ class CNOP extends CI_Controller {
     $data_sidebar['menu_active'] = 'CNOP';
     $data_sidebar['sub_menu_active'] = 'Mobile Site Data Migration';
 
+    $data['total_data'] = $this->CNOP_model->count_all();
+
     $this->load->view('template/navbar_view');
     $this->load->view('template/sidebar_view', $data_sidebar);
-    $this->load->view('migrasi_cnop/mobile_site_migration_view');
+    $this->load->view('migrasi_cnop/mobile_site_migration_view', $data);
     $this->load->view('template/footer_view');
   }
 

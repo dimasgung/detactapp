@@ -70,6 +70,7 @@
             </div>
 
               <button type="button" class="btn btn-primary btn-sm" id='create-all'>Create Selected Mobile Site</button>
+              <button type="button" class="btn btn-primary btn-sm" id='create-all-auto'>Create All Mobile Site Auto</button>
           </div>
         </div>
       </div>
@@ -113,7 +114,7 @@
               <div class="modal-body">
                                      
                       <div class="alert alert-success" id="loading-text-modal"><p>Sukses : 0 </p></div>
-                      <div class="alert alert-danger" id="loading-text-modal-error"><p>Failed : 0</p></div>
+                      <div class="alert alert-danger" id="loading-text-modal-error"><p>Error / Intermitten : 0</p></div>
                                    
               </div>
               <div class="modal-footer"  id="result-text-modal">
@@ -130,6 +131,13 @@
 
     var table;
 
+    var renderedData;
+    
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    var automate = urlParams.get('automate');  
+
     $(document).ready(function() {
  
         tampil_datatable();
@@ -141,12 +149,14 @@
               "processing": true, 
               "serverSide": true, 
               "order": [], 
-               
               "ajax": {
                   "url": "<?php echo site_url('CNOP/get_data_mobile_site')?>",
                   "type": "POST",
+                  "data": function (d) {
+                      renderedData = d.length;
+                  }
               },
-              "lengthMenu": [10, 20, 50, 100, 200, 500,1000,1500],
+              "lengthMenu": [1000],
                
               "columnDefs": [
               { 
@@ -154,7 +164,13 @@
                   "orderable": false, 
               },
               ],
-   
+              "initComplete":function(d){
+                   // auto process
+                   if(renderedData > 0 && automate=='yes'){
+                    check_all();
+                    running_process_create();
+                  }
+              },
           });
         }
 
@@ -176,6 +192,25 @@
       });
 
       $('#btn_create_all').click(function(){
+          running_process_create();
+      });
+
+      function finish_modal(){
+        // alert('Data selesai di proses');
+        $('#loading-create').modal('hide');
+        $('#ModalCreateAll').modal('hide');
+        location.reload();
+      }
+
+      function check_all(){
+          
+          var inputs  = document.getElementsByClassName("checkbox-grid");
+          for(var i = 0, l = inputs.length; i < l; ++i) {
+            inputs[i].checked = true;
+          }
+      }
+
+      function running_process_create(){
 
 
           $('#loading-create').modal('show');
@@ -199,7 +234,7 @@
                 success: function(data){
                   // alert("sukses " + data);
                   jumlahProsesSukses++;
-                  $('#loading-text-modal').html("Harap Tunggu. Telah melakukan create " + jumlahProsesSukses + " dari " + totalProses + ". Jangan di refresh.</br> Jika proses berhenti silahkan di refresh" );
+                  $('#loading-text-modal').html("Harap Tunggu. Telah melakukan create " + jumlahProsesSukses + " dari " + totalProses + ". Jangan di refresh.</br> Jika proses berhenti silahkan di refresh. </br>Total data keseluruhan " + "<?php echo $total_data ?>" );
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
@@ -210,7 +245,7 @@
                 error: function(data){
                   // alert("gagal " +data);
                   jumlahProsesFailed++;
-                  $('#loading-text-modal-error').html("Error / Intermitten / Failed sebanyak : " + jumlahProsesFailed);
+                  $('#loading-text-modal-error').html("Error / Intermitten sebanyak : " + jumlahProsesFailed);
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
@@ -229,14 +264,11 @@
             finish_modal();
 
           })
-      });
-
-      function finish_modal(){
-        alert('Data selesai di proses');
-        $('#loading-create').modal('hide');
-        $('#ModalCreateAll').modal('hide');
-        location.reload();
       }
+
+      $('#create-all-auto').click(function(){
+          window.location.href = window.location.href + "?automate=yes";
+      });
 
     });
  

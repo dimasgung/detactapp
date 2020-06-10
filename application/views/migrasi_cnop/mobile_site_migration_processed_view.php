@@ -113,7 +113,7 @@
               <div class="modal-body">
                                      
                       <div class="alert alert-success" id="loading-text-modal"><p>Sukses : 0 </p></div>
-                      <div class="alert alert-danger" id="loading-text-modal-error"><p>Failed : 0</p></div>
+                      <div class="alert alert-danger" id="loading-text-modal-error"><p>Error / Intermitten : 0</p></div>
                                    
               </div>
               <div class="modal-footer"  id="result-text-modal">
@@ -210,7 +210,7 @@
                 error: function(data){
                   // alert(data);
                   jumlahProsesFailed++;
-                  $('#loading-text-modal-error').html("Error / Intermitten / Failed sebanyak : " + jumlahProsesFailed);
+                  $('#loading-text-modal-error').html("Error / Intermitten sebanyak : " + jumlahProsesFailed);
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
