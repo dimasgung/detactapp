@@ -145,9 +145,11 @@ class CNOP extends CI_Controller {
 
             if($field->STATUS == 'SUCCESS'){
               $row[] = '<a href="#" class="btn btn-sm btn-success">'.$field->STATUS .'</a>';       
-            } else {
+            } else if($field->STATUS == 'OPEN'){
               $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS .'</a>';       
-            }            
+            } else {
+              $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS .'</a>';   
+            }
 
             $row[] = $field->SITE_ID;
             $row[] = $field->SITE_NAME;
@@ -282,7 +284,7 @@ class CNOP extends CI_Controller {
         curl_setopt($ch, CURLOPT_URL,$_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, false); 
-        curl_setopt($ch, CURLOPT_POST, count($postData));
+        curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);    
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);

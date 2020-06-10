@@ -77,7 +77,7 @@
     <!-- /.content -->
   </div>
 
-  <div class="modal"><!-- Place at bottom of page --></div>
+  <div class="modal modal-loading"><!-- Place at bottom of page --></div>
 
   <!--MODAL Create-->
   <div class="modal fade" id="ModalCreateAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -90,23 +90,46 @@
               <form class="form-horizontal">
               <div class="modal-body">
                                      
-                      <input type="hidden" name="kode" id="textkode" value="">
                       <div class="alert alert-primary"><p>Apakah Anda yakin mau membuat mobile site yang dichecklis?</p></div>
                                    
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                  <button class="btn_create_all btn btn-primary" id="btn_create_all">Create</button>
+                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                  <input class="btn_create_all btn btn-primary" id="btn_create_all" value="Create">
               </div>
               </form>
           </div>
       </div>
   </div>
  
+  <!--MODAL Create-->
+  <div class="modal fade" id="loading-create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Loading Data</h4>
+              </div>
+              <form class="form-horizontal">
+              <div class="modal-body">
+                                     
+                      <div class="alert alert-primary" id="loading-text-modal"><p>Sukses : 0 </p></div>
+                      <div class="alert alert-danger" id="loading-text-modal-error"><p>Failed : 0</p></div>
+                                   
+              </div>
+              <div class="modal-footer"  id="result-text-modal">
+              </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+
 <script src="<?php echo base_url();?>assets/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url();?>assets/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
+
     var table;
+
     $(document).ready(function() {
  
         tampil_datatable();
@@ -123,7 +146,7 @@
                   "url": "<?php echo site_url('CNOP/get_data_mobile_site_processed')?>",
                   "type": "POST",
               },
-   
+              "lengthMenu": [10, 20, 50, 100, 200, 500,1000,2000,5000],
                
               "columnDefs": [
               { 
@@ -152,46 +175,70 @@
             $('#ModalCreateAll').modal('show');
       });
 
-      $('#btn_create_all').on('click',function(){
+      $('#btn_create_all').click(function(){
 
 
-          var inputs = $('.checkbox-grid');
+          $('#loading-create').modal('show');
 
-          var jumlahProses = 0;
+          var inputs = $('.checkbox-grid:checked');
+          var totalProses = $('.checkbox-grid:checked').length;
+          var jumlahProsesSukses = 0;
+          var jumlahProsesFailed = 0;
+          var promises = [];
+          var site_id = '';
 
           for(var i = 0, l = inputs.length; i < l; ++i) {
 
+            site_id=inputs[i].value;
 
-            if(inputs[i].checked == true){
+            var request = $.ajax(  {
+                type : "POST",
+                url  : "<?php echo base_url('CNOP/create_location_osp_uimax')?>",
+                // dataType : "JSON",
+                data : {site_id: site_id},
+                success: function(data){
+                  // alert(data);
+                  jumlahProsesSukses++;
+                  $('#loading-text-modal').html("Harap Tunggu. Telah melakukan create " + jumlahProsesSukses + " dari " + totalProses + ". Jangan di refresh.</br> Jika proses berhenti silahkan di refresh" );
 
-              jumlahProses++;
-              var site_id=inputs[i].value;
+                  if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
+                    $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
+                    hide_modal();
+                  }
 
-              $.ajax({
-              type : "POST",
-              async: false,
-              url  : "<?php echo base_url('CNOP/create_location_osp_uimax')?>",
-              dataType : "JSON",
-                      data : {site_id: site_id},
-                      success: function(data){
-                        if(jumlahProses == inputs.length){
+                },
+                error: function(data){
+                  // alert(data);
+                  jumlahProsesFailed++;
+                  $('#loading-text-modal-error').html("Error / Intermitten / Failed sebanyak : " + jumlahProsesFailed);
 
-                        }
-                      }
-                  });
-            }
+                  if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
+                    $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
+                    hide_modal();
+                  }
+
+                }
+            });
+
+            promises.push(request);
+            
           }
+  
+          $.when.apply(null, promises).done(function() {
+            alert('Data selesai di proses');
+            
+            hide_modal();
 
-          alert("create data berhasil");
+            location.reload();
+          })
+      });
 
-          $('#ModalCreateAll').modal('hide');
-          
-          tampil_data_barang();
-          
-          return false;
-          });
-
+      function hide_modal(){
+        $('#loading-create').modal('hide');
+        $('#ModalCreateAll').modal('hide');
+      }
 
     });
  
+       
 </script>

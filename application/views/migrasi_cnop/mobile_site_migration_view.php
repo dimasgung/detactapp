@@ -197,21 +197,24 @@
                 dataType : "JSON",
                 data : {site_id: site_id},
                 success: function(data){
-
+                  // alert("sukses " + data);
                   jumlahProsesSukses++;
                   $('#loading-text-modal').html("Harap Tunggu. Telah melakukan create " + jumlahProsesSukses + " dari " + totalProses + ". Jangan di refresh.</br> Jika proses berhenti silahkan di refresh" );
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
+                    hide_modal();
                   }
 
                 },
                 error: function(data){
+                  // alert("gagal " +data);
                   jumlahProsesFailed++;
                   $('#loading-text-modal-error').html("Error / Intermitten / Failed sebanyak : " + jumlahProsesFailed);
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
+                    hide_modal();
                   }
 
                 }
@@ -222,12 +225,19 @@
           }
   
           $.when.apply(null, promises).done(function() {
-            alert('Data Berhasil di create');
-            $('#loading-create').modal('hide');
-            $('#ModalCreateAll').modal('hide');
+            alert('Data selesai di proses');
+            
+            hide_modal();
+
             location.reload();
           })
       });
+
+      function hide_modal(){
+        $('#loading-create').modal('hide');
+        $('#ModalCreateAll').modal('hide');
+      }
+
     });
  
        
