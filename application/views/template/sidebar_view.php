@@ -83,7 +83,7 @@
           </li>
 
           <li class="nav-header">EXTRA</li>
-          <li class="nav-item has-treeview" <?php echo ($menu_active == 'CNOP'? 'menu-open' : ''); ?>>
+          <li class="nav-item has-treeview <?php echo ($menu_active == 'CNOP'? 'menu-open' : ''); ?>">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>
@@ -93,9 +93,17 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url();?>CNOP/mobileSiteMigration" class="nav-link <?php echo ($sub_menu_active == 'Mobile Site Data Migration'? 'active' : ''); ?>">
+                <a href="<?php echo base_url();?>CNOP" class="nav-link <?php echo ($sub_menu_active == 'Mobile Site Data Migration'? 'active' : ''); ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Mobile Site Data Migration</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>CNOP/processed" class="nav-link <?php echo ($sub_menu_active == 'Mobile Site Data Migration Processed'? 'active' : ''); ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mobile Site Processed</p>
                 </a>
               </li>
             </ul>

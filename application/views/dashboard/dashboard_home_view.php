@@ -161,7 +161,7 @@
                     <div class="col-6">
             <div class="card">
               <div class="card-header border-transparent">
-                <h3 class="card-title">Analytic Done</h3>
+                <h3 class="card-title">Analytic Success</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -189,14 +189,14 @@
                       <td>1</td>
                       <td>2020-05-11</td>
                       <td>NOSSA</td>
-                      <td><span class="badge badge-sucess">Done</span></td>
+                      <td><span class="badge badge-sucess">Success</span></td>
                       <td><a href="<?php echo base_url();?>AnalyticResult" class="btn btn-link">Lihat Hasil</a></td>
                     </tr>
                     <tr>
                       <td>3</td>
                       <td>2020-05-11</td>
                       <td>NOSSA</td>
-                      <td><span class="badge badge-sucess">Done</span></td>
+                      <td><span class="badge badge-sucess">Success</span></td>
                       <td><a href="<?php echo base_url();?>AnalyticResult" class="btn btn-link">Lihat Hasil</a></td>
                     </tr>
                     </tbody>
