@@ -2,9 +2,9 @@
 class AnalyticResult_model extends CI_Model {
 
     var $table = 'analytic_result'; //nama tabel dari database
-    var $column_order = array(null, 'ATTEMPTDATE', 'APLIKASI', 'USERID', 'PREDICTION_RESULT'); //field yang ada di table user
-    var $column_search = array('ATTEMPTDATE','APLIKASI', 'USERID', 'PREDICTION_RESULT'); //field yang diizin untuk pencarian 
-    var $order = array('ATTEMPTDATE' => 'desc'); // default order 
+    var $column_order = array(null, 'ATTEMPTDATE', 'APPLICATION', 'USERID', 'PREDICTION_RESULT'); //field yang ada di table user
+    var $column_search = array('ATTEMPTDATE','APPLICATION', 'USERID', 'PREDICTION_RESULT'); //field yang diizin untuk pencarian 
+    var $order = array('ATTEMPTDATE' => 'asc'); // default order 
 
     public function __construct(){
             $this->load->database();
@@ -25,6 +25,8 @@ class AnalyticResult_model extends CI_Model {
          
         $this->db->from($this->table);
  
+        $this->db->where('STATUS', 'OPEN');
+
         $i = 0;
      
         foreach ($this->column_search as $item) // looping awal
@@ -82,13 +84,42 @@ class AnalyticResult_model extends CI_Model {
     }
 
     public function get_date_from_current_analytic_result_data(){
-        // $SQL = "select distinct DATE(ATTEMPTDATE) from logintracking"
-        // $query = $this->db->query($SQL);
-
+ 
         $query = $this->db->select("distinct DATE(ATTEMPTDATE) as attemptdate");
         $this->db->from($this->table);
         $query=$this->db->get();
 
         return $query->result_array();
     }
+
+    public function getSharedAccountData($application, $attemptdate){
+        if ($attemptdate == null){
+             $query = $this->db->get_where('analytic_result', array('APPLICATION' => $application,
+                                                            'PREDICTION' => 1));
+             return $query->result_array();
+        }
+
+        $query = $this->db->get_where('analytic_result', array('APPLICATION' => $application,
+                                                            'ATTEMPTDATE' => $attemptdate,
+                                                            'PREDICTION' => 1));
+        return $query->result_array();
+    }
+
+    public function delete_analytic_result_by_id($analytic_result_id){
+        $this->db->where('ANALYTIC_RESULT_ID', $analytic_result_id);
+        $this->db->delete('analytic_result');
+    }
+
+    public function delete_analytic_result_by_attemptdate($attemptdate){
+
+        $this->db->where('ATTEMPTDATE', $attemptdate);
+        $this->db->delete('analytic_result');
+    }
+
+    public function delete_analytic_result_all_data(){
+
+        $this->db->where('ANALYTIC_RESULT_ID !=', 0);
+        $this->db->delete('analytic_result');
+    }
+
 }

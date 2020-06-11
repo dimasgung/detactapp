@@ -78,8 +78,6 @@
     <!-- /.content -->
   </div>
 
-  <div class="modal modal-loading"><!-- Place at bottom of page --></div>
-
   <!--MODAL Create-->
   <div class="modal fade" id="ModalCreateAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">

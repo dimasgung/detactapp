@@ -60,7 +60,7 @@ class AnalyticResult extends CI_Controller {
             $row = array();
             $row[] = $no;
             $row[] = $field->ATTEMPTDATE;
-            $row[] = $field->APLIKASI;
+            $row[] = $field->APPLICATION;
             $row[] = $field->USERID;
 
             if($field->PREDICTION == 0){
@@ -83,4 +83,58 @@ class AnalyticResult extends CI_Controller {
         //output dalam format JSON
         echo json_encode($output);
     }
+
+    function submitSharedAccountData(){
+        $attemptdate = $this->input->post('processed_attempt_date');
+        $application = $this->input->post('application');
+
+        $sharedAccountData = $this->AnalyticResult_model->getSharedAccountData($application, $attemptdate);
+
+        $this->load->model('DetectedSharedAccountHistory_model');
+
+        $result='';
+
+        foreach ($sharedAccountData as $data){  
+            $detected_shared_account = array(
+                'LOGINTRACKING_HISTORY_ID' => $data['LOGINTRACKING_HISTORY_ID'],
+                'USERID' => $data['USERID'],
+                'ATTEMPTDATE' => $data['ATTEMPTDATE'],
+                'APPLICATION' => $data['APPLICATION'],
+                'STATUS_CONFIRMATION' => 'OPEN',
+                'IS_SHARED_CONFIRMATION' => 'NOT YET',
+                'ACTION_CONFIRMATION' => 'NOT YET',
+                'DESCRIPTION' => '',
+            );
+
+            $result = $this->DetectedSharedAccountHistory_model->insert_detected_shared_account_history($detected_shared_account);
+
+        } 
+
+        if($attemptdate == null){
+                $this->AnalyticResult_model->delete_analytic_result_all_data();
+        } else {
+                $this->AnalyticResult_model->delete_analytic_result_by_attemptdate($attemptdate);
+        }
+        
+        echo $attemptdate;
+        // echo json_encode($sharedAccountData);
+    }
+
+    // function followup(){
+
+    //     $attemptdate = $this->input->post('processed_attempt_date');
+    //     $application = $this->input->post('application');
+
+    //     if ($attemptdate == 'ALL' ){
+    //         $attemptdate = null;
+    //     }
+
+    //     echo $attemptdate.' ' . $application;
+
+    //     get_analytic_result();
+
+    //     // if single date what happen
+
+    //     // if all date what happen
+    // }
 }

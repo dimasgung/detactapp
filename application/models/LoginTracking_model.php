@@ -16,7 +16,7 @@ class LoginTracking_model extends CI_Model {
    		     return $query->result_array();
 	    }
 
-		$query = $this->db->get_where('logintracking', array('logintrackingid' => $logintrackingid));
+		$query = $this->db->get_where('logintracking', array('LOGINTRACKINGID' => $logintrackingid));
 	    return $query->row_array();
 	}
 
