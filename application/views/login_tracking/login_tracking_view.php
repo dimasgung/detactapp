@@ -29,7 +29,7 @@
                   <!-- select -->
                     <div class="form-group">
                         <label>Tanggal Login</label>
-                        <select class="form-control" name='processed_attempt_date'>
+                        <select class="form-control" name='processed_attempt_date' id='processed_attempt_date'>
                           <?php 
                             $i = 0;
                             foreach ($option_date as $option_date_item): ?>
@@ -97,28 +97,43 @@
 <script type="text/javascript">
     var table;
     $(document).ready(function() {
+
+        var attemptdate = $('#processed_attempt_date').val();
+
+        tampil_table();
  
-        //datatables
-        table = $('#table').DataTable({ 
- 
-            "processing": true, 
-            "serverSide": true, 
-            "order": [], 
-             
-            "ajax": {
-                "url": "<?php echo site_url('LoginTracking/get_data_logintracking')?>",
-                "type": "POST",
-            },
- 
-             
-            "columnDefs": [
-            { 
-                "targets": [ 0 ], 
-                "orderable": false, 
-            },
-            ],
- 
+        $('#processed_attempt_date').on('change', function() {
+            $('#table').dataTable().fnDestroy();
+            attemptdate = $('#processed_attempt_date').val();
+            tampil_table();
         });
+
+
+        function tampil_table(){
+
+            //datatables
+            table = $('#table').DataTable({ 
+     
+                "processing": true, 
+                "serverSide": true, 
+                "order": [], 
+                 
+                "ajax": {
+                    "url": "<?php echo site_url('LoginTracking/get_data_logintracking')?>",
+                    "type": "POST",
+                    "data":{attemptdate: attemptdate},
+                },
+     
+                 
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ], 
+                    "orderable": false, 
+                },
+                ],
+     
+            });
+        }
  
     });
  

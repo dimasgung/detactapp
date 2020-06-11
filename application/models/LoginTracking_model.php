@@ -66,7 +66,8 @@ class LoginTracking_model extends CI_Model {
     {
          
         $this->db->from($this->table);
- 
+
+        $this->db->where('ATTEMPTDATE', $this->input->post('attemptdate'));
         $i = 0;
      
         foreach ($this->column_search as $item) // looping awal
