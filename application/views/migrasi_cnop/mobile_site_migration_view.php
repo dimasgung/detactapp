@@ -166,7 +166,7 @@
               ],
               "initComplete":function(d){
                    // auto process
-                   if(renderedData > 0 && automate=='yes'){
+                   if(d._iRecordsTotal > 0 && automate=='yes'){
                     check_all();
                     running_process_create();
                   }

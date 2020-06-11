@@ -19,7 +19,7 @@ class CNOP extends CI_Controller {
     $data_sidebar['menu_active'] = 'CNOP';
     $data_sidebar['sub_menu_active'] = 'Mobile Site Data Migration';
 
-    $data['total_data'] = $this->CNOP_model->count_all();
+    $data['total_data'] = $this->CNOP_model->count_all_processed();
 
     $this->load->view('template/navbar_view');
     $this->load->view('template/sidebar_view', $data_sidebar);
@@ -38,9 +38,12 @@ class CNOP extends CI_Controller {
     $data_sidebar['menu_active'] = 'CNOP';
     $data_sidebar['sub_menu_active'] = 'Mobile Site Data Migration Processed';
 
+
+    $data['total_data'] = $this->CNOP_model->count_all();
+
     $this->load->view('template/navbar_view');
     $this->load->view('template/sidebar_view', $data_sidebar);
-    $this->load->view('migrasi_cnop/mobile_site_migration_processed_view');
+    $this->load->view('migrasi_cnop/mobile_site_migration_processed_view', $data);
     $this->load->view('template/footer_view');
   }
 
@@ -63,7 +66,7 @@ class CNOP extends CI_Controller {
                    "legacy_id" => $mobile_site['SITE_ID'],
                    "details" => $mobile_site['ADDRESS'],
                    "status" => 'ACTIVE',
-                   "geometry" => 'POINT('. $mobile_site['LATITUDE']. ' '. $mobile_site['LONGITUDE']. ')'
+                   "geometry" => 'POINT('. $mobile_site['LONGITUDE']. ' '. $mobile_site['LATITUDE']. ')'
                 );
         $url = 'https://appdev-oss:9093/api/location/create';
 
@@ -156,6 +159,8 @@ class CNOP extends CI_Controller {
             $row[] = $field->SITE_ID;
             $row[] = $field->SITE_NAME;
             $row[] = $field->ADDRESS;
+            $row[] = $field->LATITUDE;
+            $row[] = $field->LONGITUDE;
             $row[] = $field->REGIONAL;
             $row[] = $field->WITEL;
             $row[] = $field->STO;

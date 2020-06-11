@@ -5,13 +5,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Mobile Site Processed</h1>
+            <h1>Data Mobile Site</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?php echo base_url();?>Dashboard">Home</a></li>
               <li class="breadcrumb-item"><a href="#">CNOP</a></li>
-              <li class="breadcrumb-item active">Mobile Site Migration Processed</li>
+              <li class="breadcrumb-item active">Mobile Site Migration</li>
             </ol>
           </div>
         </div>
@@ -25,7 +25,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Mobile Site Data Processed</h3>
+                <h3 class="card-title">Mobile Site Data</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -39,6 +39,8 @@
                             <th>SITE_ID</th>
                             <th>SITE_NAME</th>
                             <th>ADDRESS</th>
+                            <th>LATITUDE</th>
+                            <th>LONGITUDE</th>
                             <th>REGIONAL</th>
                             <th>WITEL</th>
                             <th>STO</th>
@@ -57,6 +59,8 @@
                             <th>SITE_ID</th>
                             <th>SITE_NAME</th>
                             <th>ADDRESS</th>
+                            <th>LATITUDE</th>
+                            <th>LONGITUDE</th>
                             <th>REGIONAL</th>
                             <th>WITEL</th>
                             <th>STO</th>
@@ -70,6 +74,7 @@
             </div>
 
               <button type="button" class="btn btn-primary btn-sm" id='create-all'>Create Selected Mobile Site</button>
+              <button type="button" class="btn btn-primary btn-sm" id='create-all-auto'>Create All Mobile Site Auto</button>
           </div>
         </div>
       </div>
@@ -130,6 +135,13 @@
 
     var table;
 
+    var renderedData;
+    
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    var automate = urlParams.get('automate');  
+
     $(document).ready(function() {
  
         tampil_datatable();
@@ -141,12 +153,14 @@
               "processing": true, 
               "serverSide": true, 
               "order": [], 
-               
               "ajax": {
                   "url": "<?php echo site_url('CNOP/get_data_mobile_site_processed')?>",
                   "type": "POST",
+                  "data": function (d) {
+                      renderedData = d.length;
+                  }
               },
-              "lengthMenu": [10, 20, 50, 100, 200, 500,1500],
+              "lengthMenu": [1000],
                
               "columnDefs": [
               { 
@@ -154,7 +168,13 @@
                   "orderable": false, 
               },
               ],
-   
+              "initComplete":function(d){
+                   // auto process
+                   if(d._iRecordsTotal > 0 && automate=='yes'){
+                    check_all();
+                    running_process_create();
+                  }
+              },
           });
         }
 
@@ -176,6 +196,25 @@
       });
 
       $('#btn_create_all').click(function(){
+          running_process_create();
+      });
+
+      function finish_modal(){
+        // alert('Data selesai di proses');
+        $('#loading-create').modal('hide');
+        $('#ModalCreateAll').modal('hide');
+        location.reload();
+      }
+
+      function check_all(){
+          
+          var inputs  = document.getElementsByClassName("checkbox-grid");
+          for(var i = 0, l = inputs.length; i < l; ++i) {
+            inputs[i].checked = true;
+          }
+      }
+
+      function running_process_create(){
 
 
           $('#loading-create').modal('show');
@@ -194,27 +233,27 @@
             var request = $.ajax(  {
                 type : "POST",
                 url  : "<?php echo base_url('CNOP/create_location_osp_uimax')?>",
-                // dataType : "JSON",
+                dataType : "JSON",
                 data : {site_id: site_id},
                 success: function(data){
-                  // alert(data);
+                  // alert("sukses " + data);
                   jumlahProsesSukses++;
-                  $('#loading-text-modal').html("Harap Tunggu. Telah melakukan create " + jumlahProsesSukses + " dari " + totalProses + ". Jangan di refresh.</br> Jika proses berhenti silahkan di refresh" );
+                  $('#loading-text-modal').html("Harap Tunggu. Telah melakukan create " + jumlahProsesSukses + " dari " + totalProses + ". Jangan di refresh.</br> Jika proses berhenti silahkan di refresh. </br>Total data keseluruhan " + "<?php echo $total_data ?>" );
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
-                    hide_modal();
+                    finish_modal();
                   }
 
                 },
                 error: function(data){
-                  // alert(data);
+                  // alert("gagal " +data);
                   jumlahProsesFailed++;
                   $('#loading-text-modal-error').html("Error / Intermitten sebanyak : " + jumlahProsesFailed);
 
                   if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
                     $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
-                    hide_modal();
+                    finish_modal();
                   }
 
                 }
@@ -226,17 +265,14 @@
   
           $.when.apply(null, promises).done(function() {
             
-            hide_modal();
+            finish_modal();
 
           })
-      });
-
-      function hide_modal(){
-        alert('Data selesai di proses');
-        $('#loading-create').modal('hide');
-        $('#ModalCreateAll').modal('hide');
-        location.reload();
       }
+
+      $('#create-all-auto').click(function(){
+          window.location.href = window.location.href + "?automate=yes";
+      });
 
     });
  
