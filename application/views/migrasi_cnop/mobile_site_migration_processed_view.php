@@ -5,13 +5,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Mobile Site</h1>
+            <h1>Data Mobile Site Processed</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?php echo base_url();?>Dashboard">Home</a></li>
               <li class="breadcrumb-item"><a href="#">CNOP</a></li>
-              <li class="breadcrumb-item active">Mobile Site Migration</li>
+              <li class="breadcrumb-item active">Mobile Site Migration Processed</li>
             </ol>
           </div>
         </div>
@@ -25,7 +25,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Mobile Site Data</h3>
+                <h3 class="card-title">Mobile Site Data Processed</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
