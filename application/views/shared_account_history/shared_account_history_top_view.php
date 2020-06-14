@@ -5,13 +5,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Shared Account History</h1>
+            <h1>Data Shared Account History Top 25</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?php echo base_url();?>Dashboard">Home</a></li>
               <li class="breadcrumb-item"><a href="#">Shared Account History</a></li>
-              <li class="breadcrumb-item active">Shared Account History Open</li>
+              <li class="breadcrumb-item active">Shared Account History Top 25</li>
             </ol>
           </div>
         </div>
@@ -23,13 +23,13 @@
        <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-              <button type="button" class="btn btn-primary btn-sm" id='send-selected'>send email confirmation to selected data</button>
-              <button type="button" class="btn btn-warning btn-sm" id='send-all-auto'>send email confirmation to all</button>
+              <!-- <button type="button" class="btn btn-primary btn-sm" id='send-selected'>send email confirmation to selected data</button> -->
+              <!-- <button type="button" class="btn btn-warning btn-sm" id='send-all-auto'>send email confirmation to all</button> -->
               <!-- <button type="button" class="btn btn-dark btn-sm" id='manual-confirmation'>manual confirmation</button> -->
               <!-- <button type="button" class="btn btn-danger btn-sm" id='delete-confirmation'>delete zero user-id</button> -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Shared Account History Data Open</h3>
+                <h3 class="card-title">Shared Account History Data Top 25</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -40,9 +40,7 @@
                             <th>NO</th>
                             <th>USERID</th>
                             <th>APPLICATION</th>
-                            <th>ATTEMPTDATE</th>
-                            <th>STATUS_CONFIRMATION</th>
-                            <th>DESCRIPTION</th>
+                            <th>TOTAL HISTORY</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,12 +49,10 @@
                     <tfoot>
                         <tr>
                             <th>Select</th>
-                            <th>No</th>
+                            <th>NO</th>
                             <th>USERID</th>
                             <th>APPLICATION</th>
-                            <th>ATTEMPTDATE</th>
-                            <th>STATUS_CONFIRMATION</th>
-                            <th>DESCRIPTION</th>
+                            <th>TOTAL HISTORY</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -141,7 +137,7 @@
               "serverSide": true, 
               "order": [], 
               "ajax": {
-                  "url": "<?php echo site_url('SharedAccountHistory/get_data_shared_account_history')?>",
+                  "url": "<?php echo site_url('SharedAccountHistory/get_data_shared_account_history_top')?>",
                   "type": "POST",
                   "data": function (d) {
                       renderedData = d.length;
@@ -262,7 +258,7 @@
   
           $.when.apply(null, promises).done(function() {
 
-            // alert('Pengiriman email selesai di proses');
+            alert('Pengiriman email selesai di proses');
             finish_modal();
 
           })

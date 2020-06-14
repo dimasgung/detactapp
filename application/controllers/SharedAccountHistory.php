@@ -77,6 +77,24 @@ class SharedAccountHistory extends CI_Controller {
     $this->load->view('template/footer_view');
   }
 
+  public function top(){
+
+    // view versi 1
+    // $data['shared_account_history'] = $this->SharedAccountHistory_model->view();
+    // $this->load->view('migrasi_SharedAccountHistory/shared_account_history_migration_view', $data);
+
+    // view versi 2 - datatables
+    $data_sidebar['menu_active'] = 'Shared Account History';
+    $data_sidebar['sub_menu_active'] = 'Top 25';
+
+
+    // $data['total_data'] = $this->SharedAccountHistory_model->count_all();
+
+    $this->load->view('template/navbar_view');
+    $this->load->view('template/sidebar_view', $data_sidebar);
+    $this->load->view('shared_account_history/shared_account_history_top_view');
+    $this->load->view('template/footer_view');
+  }
 
   function send_email_confirmation(){
 
@@ -137,12 +155,12 @@ class SharedAccountHistory extends CI_Controller {
         
         //proses kirim email
         if($this->email->send()){
-          $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'SENT');
-          echo json_encode('kirim email berhasil');
+          $result = $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'SENT');
+          echo json_encode('kirim email berhasil ' + $result);
         }
         else{
-          $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'FAILED');
-          echo json_encode('kirim email gagal');
+          $result = $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'FAILED');
+          echo json_encode('kirim email gagal ' + $result);
         }
   }
   
@@ -302,6 +320,35 @@ class SharedAccountHistory extends CI_Controller {
         //output dalam format JSON
         echo json_encode($output);
   }
+
+  function get_data_shared_account_history_top(){
+
+        $list = $this->SharedAccountHistory_model->get_shared_account_history_datatables_top();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $field) {
+            $no++;
+            $row = array();
+
+            $row[] = '';
+            $row[] = $no;
+            $row[] = $field->USERID;
+            $row[] = $field->APPLICATION;
+            $row[] = $field->TOTAL_HISTORY;
+ 
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->SharedAccountHistory_model->count_all_top(),
+            "recordsFiltered" => $this->SharedAccountHistory_model->count_filtered_top(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+  }
+
   public function postCURL($_url, $_param){
 
         $postData = '';
