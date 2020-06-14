@@ -42,7 +42,7 @@
                             <th>APPLICATION</th>
                             <th>ATTEMPTDATE</th>
                             <th>STATUS_CONFIRMATION</th>
-                            <th>TOTAL HISTORY</th>
+                            <th>DESCRIPTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,7 +56,7 @@
                             <th>APPLICATION</th>
                             <th>ATTEMPTDATE</th>
                             <th>STATUS_CONFIRMATION</th>
-                            <th>TOTAL HISTORY</th>
+                            <th>DESCRIPTION</th>
                         </tr>
                     </tfoot>
                 </table>

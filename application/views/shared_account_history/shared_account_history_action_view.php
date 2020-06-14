@@ -44,7 +44,7 @@
                             <th>IS SHARED CONFIRMATION</th>
                             <th>ACTION CONFIRMATION</th>
                             <th>STATUS CONFIRMATION</th>
-                            <th>TOTAL HISTORY</th>
+                            <th>DESCRIPTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +60,7 @@
                             <th>IS SHARED CONFIRMATION</th>
                             <th>ACTION CONFIRMATION</th>
                             <th>STATUS CONFIRMATION</th>
-                            <th>TOTAL HISTORY</th>
+                            <th>DESCRIPTION</th>
                         </tr>
                     </tfoot>
                 </table>

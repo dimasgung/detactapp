@@ -5,7 +5,9 @@ class SharedAccountHistory extends CI_Controller {
     parent::__construct();
     
     $this->load->model('SharedAccountHistory_model');
-    $this->load->library(array('form_validation','ion_auth'));
+    $this->load->library(array('form_validation','ion_auth'));  
+    $this->load->library('encryption');
+    // $this->load->library('MCrypt');
 
     if (!$this->ion_auth->logged_in()) {//cek login ga?
         redirect('Auth/login','refresh');
@@ -91,13 +93,14 @@ class SharedAccountHistory extends CI_Controller {
             'smtp_port' => 465,
             'smtp_user' => 'dimas.saputra@telkom.co.id',//alamat email gmail
             'smtp_pass' => rtrim($this->decrypt()),//password email
-            // 'smtp_pass' => 'Dimas098567',//password email  
             'mailtype' => 'html',
             'charset' => 'iso-8859-1',
             'wordwrap' => TRUE
         );
 
         $confirmationLink = base_url().'Confirmation/confirmation_response';
+
+        $message = 'test';
 
         $message = '<<!DOCTYPE html>';
         $message .= '<html>';
@@ -146,22 +149,23 @@ class SharedAccountHistory extends CI_Controller {
   function decrypt(){
     $output = '';
 
-    $string = 'WbvA8Q8E0zr9blCOkL7igrqyIWFP6SwFb+vkPEsHDZM=';
-
-    $key = '@724!##s0vya';
+    $string = 'c0924fbd90a2dbb4d3f49984a3198488035099d840f23582fd3aedc072caed149bceaac9b10f7c15885f7adffdaa2f55fa3729baa376d3145292caad73c38f32WELyLtizxYo8160A7OvIBjyh+kXsEL5veaIvzBaiVck=';
 
     $action = 'decrypt';
 
-    // initialization vector 
-    $iv = md5(md5($key));
+    $this->encryption->initialize(
+            array(
+                    'cipher' => 'aes-256',
+                    'mode' => 'cbc',
+                    'key' => '@724!##s0vya'
+            )
+    );
 
     if ($action == 'encrypt') {
-        $output = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, $iv);
-        $output = base64_encode($output);
+           $output = $this->encryption->encrypt($msg);
     } else {
         if ($action == 'decrypt') {
-            $output = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($string), MCRYPT_MODE_CBC, $iv);
-            $output = rtrim($output, "");
+           $output = $this->encryption->decrypt($string);
         }
     }
     return $output;
@@ -182,13 +186,9 @@ class SharedAccountHistory extends CI_Controller {
             $row[] = $field->APPLICATION;
             $row[] = $field->ATTEMPTDATE;
 
-            if($field->STATUS_CONFIRMATION == 'OPEN'){
-              $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS_CONFIRMATION .'</a>';       
-            } else {
-              $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS_CONFIRMATION .'</a>';       
-            }            
+            $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS_CONFIRMATION .'</a>';       
 
-            $row[] = $this->SharedAccountHistory_model->get_count_shared_account_received_done_by_user_id_and_application($field->USERID, $field->APPLICATION);
+            $row[] = $field->DESCRIPTION;
  
             $data[] = $row;
         }
@@ -219,14 +219,10 @@ class SharedAccountHistory extends CI_Controller {
             $row[] = $field->APPLICATION;
             $row[] = $field->ATTEMPTDATE;
 
-            if($field->STATUS_CONFIRMATION == 'OPEN'){
-              $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS_CONFIRMATION .'</a>';       
-            } else {
-              $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS_CONFIRMATION .'</a>';       
-            }            
+            $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS_CONFIRMATION .'</a>';       
+              
+            $row[] = $field->DESCRIPTION;
 
-            $row[] = $this->SharedAccountHistory_model->get_count_shared_account_received_done_by_user_id_and_application($field->USERID, $field->APPLICATION);
- 
             $data[] = $row;
         }
  
@@ -255,14 +251,9 @@ class SharedAccountHistory extends CI_Controller {
             $row[] = $field->USERID;
             $row[] = $field->APPLICATION;
             $row[] = $field->ATTEMPTDATE;
-
-            if($field->STATUS_CONFIRMATION == 'OPEN'){
-              $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS_CONFIRMATION .'</a>';       
-            } else {
-              $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS_CONFIRMATION .'</a>';       
-            }            
+            $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS_CONFIRMATION .'</a>';       
             
-            $row[] = $this->SharedAccountHistory_model->get_count_shared_account_received_done_by_user_id_and_application($field->USERID, $field->APPLICATION);
+            $row[] = $field->DESCRIPTION;
  
             $data[] = $row;
         }
@@ -295,13 +286,9 @@ class SharedAccountHistory extends CI_Controller {
             $row[] = $field->IS_SHARED_CONFIRMATION;
             $row[] = $field->ACTION_CONFIRMATION;
 
-            if($field->STATUS_CONFIRMATION == 'OPEN'){
-              $row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS_CONFIRMATION .'</a>';       
-            } else {
-              $row[] = '<a href="#" class="btn btn-sm btn-danger">'.$field->STATUS_CONFIRMATION .'</a>';       
-            }            
+            $row[] = '<a href="#" class="btn btn-sm btn-success">'.$field->STATUS_CONFIRMATION .'</a>';       
 
-            $row[] = $this->SharedAccountHistory_model->get_count_shared_account_received_done_by_user_id_and_application($field->USERID, $field->APPLICATION);
+            $row[] = $field->DESCRIPTION;
  
             $data[] = $row;
         }

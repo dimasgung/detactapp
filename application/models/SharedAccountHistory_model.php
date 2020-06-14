@@ -2,8 +2,8 @@
 class SharedAccountHistory_model extends CI_Model {
 
     var $table = 'shared_account_history'; //nama tabel dari database
-    var $column_order = array(null, 'ATTEMPTDATE', 'APPLICATION', 'USERID', 'STATUS_CONFIRMATION'); //field yang ada di table user
-    var $column_search = array('ATTEMPTDATE','APPLICATION', 'USERID', 'STATUS_CONFIRMATION'); //field yang diizin untuk pencarian 
+    var $column_order = array(null, 'ATTEMPTDATE', 'APPLICATION', 'USERID', 'STATUS_CONFIRMATION', 'ACTION_CONFIRMATION', 'IS_SHARED_CONFIRMATION'); //field yang ada di table user
+    var $column_search = array('ATTEMPTDATE','APPLICATION', 'USERID', 'STATUS_CONFIRMATION', 'ACTION_CONFIRMATION', 'IS_SHARED_CONFIRMATION'); //field yang diizin untuk pencarian 
     var $order = array('ATTEMPTDATE' => 'desc'); // default order 
 
     public function __construct(){

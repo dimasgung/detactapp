@@ -28,7 +28,11 @@ class Confirmation extends CI_Controller {
     $status = $this->SharedAccountHistory_model->get_confirmation_status_by_id($shared_account_history_id);
 
     if($status->STATUS_CONFIRMATION != 'RECEIVED'){
-        $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_after_receiving_by_id($shared_account_history_id, 'RECEIVED', $is_shared_confirmation, $action_confirmation);
+        // $total_history = $this->SharedAccountHistory_model->get_total_history_by_id($shared_account_history_id);
+
+        // $total_history = $total_history + 1;
+
+        $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_after_receiving_by_id($shared_account_history_id, 'RECEIVED', $is_shared_confirmation);
 
         redirect(base_url()."Confirmation");
     } else {
