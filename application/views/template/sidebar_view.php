@@ -73,10 +73,47 @@
                   <p>Shared Account</p>
                 </a>
               </li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item has-treeview <?php echo ($menu_active == 'Shared Account History'? 'menu-open' : ''); ?>">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Shared Account History
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url();?>FollowUp" class="nav-link <?php echo ($sub_menu_active == 'Follow Up'? 'active' : ''); ?>">
+                <a href="<?php echo base_url();?>SharedAccountHistory" class="nav-link <?php echo ($sub_menu_active == 'Need Confirmation'? 'active' : ''); ?>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Follow Up</p>
+                  <p>OPEN (Need Confirmation)</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>SharedAccountHistory/failed" class="nav-link <?php echo ($sub_menu_active == 'Failed Confirmation'? 'active' : ''); ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>FAILED</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>SharedAccountHistory/sent" class="nav-link <?php echo ($sub_menu_active == 'Sent Confirmation'? 'active' : ''); ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>SENT</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>SharedAccountHistory/action" class="nav-link <?php echo ($sub_menu_active == 'Need Action'? 'active' : ''); ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>RECEIVED (Need Action)</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>SharedAccountHistory/top" class="nav-link <?php echo ($sub_menu_active == 'Top 25'? 'active' : ''); ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Top 25</p>
                 </a>
               </li>
             </ul>

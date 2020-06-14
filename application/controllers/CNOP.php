@@ -34,7 +34,6 @@ class CNOP extends CI_Controller {
     // $this->load->view('migrasi_cnop/mobile_site_migration_view', $data);
 
     // view versi 2 - datatables
-
     $data_sidebar['menu_active'] = 'CNOP';
     $data_sidebar['sub_menu_active'] = 'Mobile Site Data Migration Processed';
 

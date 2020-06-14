@@ -90,7 +90,7 @@ class AnalyticResult extends CI_Controller {
 
         $sharedAccountData = $this->AnalyticResult_model->getSharedAccountData($application, $attemptdate);
 
-        $this->load->model('DetectedSharedAccountHistory_model');
+        $this->load->model('SharedAccountHistory_model');
 
         $result='';
 
@@ -101,12 +101,12 @@ class AnalyticResult extends CI_Controller {
                 'ATTEMPTDATE' => $data['ATTEMPTDATE'],
                 'APPLICATION' => $data['APPLICATION'],
                 'STATUS_CONFIRMATION' => 'OPEN',
-                'IS_SHARED_CONFIRMATION' => 'NOT YET',
-                'ACTION_CONFIRMATION' => 'NOT YET',
+                'IS_SHARED_CONFIRMATION' => 'OPEN',
+                'ACTION_CONFIRMATION' => 'OPEN',
                 'DESCRIPTION' => '',
             );
 
-            $result = $this->DetectedSharedAccountHistory_model->insert_detected_shared_account_history($detected_shared_account);
+            $result = $this->SharedAccountHistory_model->insert_shared_account_history($detected_shared_account);
 
         } 
 
