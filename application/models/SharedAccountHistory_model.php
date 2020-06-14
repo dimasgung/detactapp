@@ -341,6 +341,8 @@ class SharedAccountHistory_model extends CI_Model {
             $order_top = $this->order_top;
             $this->db->order_by(key($order_top), $order_top[key($order_top)]);
         }
+
+        $this->db->limit(25);
     }
  
     function get_shared_account_history_datatables_top()
@@ -361,8 +363,11 @@ class SharedAccountHistory_model extends CI_Model {
  
     public function count_all_top()
     {
+        $this->db->select('USERID, APPLICATION, COUNT(*) AS TOTAL_HISTORY');
         $this->db->from($this->table);
         $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        $this->db->group_by('USERID, APPLICATION');
+        $this->db->limit(25);
         return $this->db->count_all_results();
     }
 
