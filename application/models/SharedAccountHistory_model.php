@@ -294,7 +294,7 @@ class SharedAccountHistory_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
-    // TOP
+    // TOP RECEIVED DONE
     private function _get_shared_account_history_datatables_query_top()
     {
          
@@ -366,6 +366,79 @@ class SharedAccountHistory_model extends CI_Model {
         $this->db->select('USERID, APPLICATION, COUNT(*) AS TOTAL_HISTORY');
         $this->db->from($this->table);
         $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        $this->db->group_by('USERID, APPLICATION');
+        $this->db->limit(25);
+        return $this->db->count_all_results();
+    }
+
+    // TOP ALL
+    private function _get_shared_account_history_datatables_query_top_all()
+    {
+         
+
+        $this->db->select('USERID, APPLICATION, COUNT(*) AS TOTAL_HISTORY');
+
+        $this->db->from($this->table);
+ 
+        $i = 0;
+     
+        foreach ($this->column_search_top as $item) // looping awal
+        {
+
+            if($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+                 
+                if($i===0) // looping awal
+                {
+                    $this->db->group_start(); 
+                    $this->db->like($item, $_POST['search']['value']);
+                }
+                else
+                {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+ 
+                if(count($this->column_search_top) - 1 == $i) 
+                    $this->db->group_end(); 
+            }
+            $i++;
+        }
+         
+        $this->db->group_by('USERID, APPLICATION');
+
+        if(isset($_POST['order'])) 
+        {
+            $this->db->order_by($this->column_order_top[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } 
+        else if(isset($this->order_top))
+        {
+            $order_top = $this->order_top;
+            $this->db->order_by(key($order_top), $order_top[key($order_top)]);
+        }
+
+        $this->db->limit(25);
+    }
+ 
+    function get_shared_account_history_datatables_top_all()
+    {
+        $this->_get_shared_account_history_datatables_query_top_all();
+        if($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+ 
+    public function count_filtered_top_all()
+    {
+        $this->_get_shared_account_history_datatables_query_top_all();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+ 
+    public function count_all_top_all()
+    {
+        $this->db->select('USERID, APPLICATION, COUNT(*) AS TOTAL_HISTORY');
+        $this->db->from($this->table);
         $this->db->group_by('USERID, APPLICATION');
         $this->db->limit(25);
         return $this->db->count_all_results();

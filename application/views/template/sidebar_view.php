@@ -79,7 +79,7 @@
 
           <li class="nav-item has-treeview <?php echo ($menu_active == 'Shared Account History'? 'menu-open' : ''); ?>">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-envelope"></i>
               <p>
                 Shared Account History
                 <i class="fas fa-angle-left right"></i>
@@ -110,10 +110,29 @@
                   <p>RECEIVED (Need Action)</p>
                 </a>
               </li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item has-treeview <?php echo ($menu_active == 'Top 25'? 'menu-open' : ''); ?>">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-lock"></i>
+              <p>
+                Top 25 Account
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url();?>SharedAccountHistory/top" class="nav-link <?php echo ($sub_menu_active == 'Top 25'? 'active' : ''); ?>">
+                <a href="<?php echo base_url();?>SharedAccountHistory/top" class="nav-link <?php echo ($sub_menu_active == 'Top 25 Confirmed Case'? 'active' : ''); ?>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Top 25</p>
+                  <p>Top 25 Confirmed Cases</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>SharedAccountHistory/top_all" class="nav-link <?php echo ($sub_menu_active == 'Top 25 All Detected Case'? 'active' : ''); ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Top 25 All Detected Cases</p>
                 </a>
               </li>
             </ul>

@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Shared Account History Top 25 Confirmed Case</h1>
+            <h1>Data Shared Account History Top 25 All Detected Case</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -29,7 +29,7 @@
               <!-- <button type="button" class="btn btn-danger btn-sm" id='delete-confirmation'>delete zero user-id</button> -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Shared Account History Data Top 25 Confirmed Case</h3>
+                <h3 class="card-title">Shared Account History Data Top 25 All Detected Case</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -137,7 +137,7 @@
               "serverSide": true, 
               "order": [], 
               "ajax": {
-                  "url": "<?php echo site_url('SharedAccountHistory/get_data_shared_account_history_top')?>",
+                  "url": "<?php echo site_url('SharedAccountHistory/get_data_shared_account_history_top_all')?>",
                   "type": "POST",
                   "data": function (d) {
                       renderedData = d.length;
