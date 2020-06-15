@@ -106,15 +106,25 @@ class LoginTrackingHistory_model extends CI_Model {
     public function get_logintracking_history_id_by_attemptdate_and_application($attemptdate, $application){
         $this->db->select('LOGINTRACKING_HISTORY_ID');
         $this->db->from($this->table);
-        $this->db->where('PROCESSED_ATTEMPT_DATE', $attemptdate);
+        if($attemptdate != null){
+            $this->db->where('PROCESSED_ATTEMPT_DATE', $attemptdate);
+        }
         $this->db->where('APPLICATION', $application);
+        $this->db->where('STATUS', 'SUCCESS');
 
         $query = $this->db->get();
-        return $query->row();
+        return $query->result_array();
     }
 
     public function update_status_to_success_logintracking_history_by_id($logintracking_history_id){
         $hasil=$this->db->query("UPDATE logintracking_history SET STATUS='SUCCESS' WHERE LOGINTRACKING_HISTORY_ID='".$logintracking_history_id."'");
         return $hasil;
     }
+
+
+    public function update_status_to_done_logintracking_history_by_id($logintracking_history_id){
+        $hasil=$this->db->query("UPDATE logintracking_history SET STATUS='DONE' WHERE LOGINTRACKING_HISTORY_ID='".$logintracking_history_id."'");
+        return $hasil;
+    }
+
 }

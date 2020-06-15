@@ -191,7 +191,7 @@
                   alert('submit data berhasil ' + data);
                 },
                 error: function(data){
-                  alert('submit data gagal');
+                  alert('submit data gagal ' + data);
                   finish_modal();
                 }
           });

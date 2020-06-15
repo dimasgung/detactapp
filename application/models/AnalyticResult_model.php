@@ -95,6 +95,7 @@ class AnalyticResult_model extends CI_Model {
     public function getSharedAccountData($application, $attemptdate){
         if ($attemptdate == null){
              $query = $this->db->get_where('analytic_result', array('APPLICATION' => $application,
+                                                            'ATTEMPTDATE' => $attemptdate,
                                                             'PREDICTION' => 1));
              return $query->result_array();
         }

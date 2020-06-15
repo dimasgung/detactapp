@@ -25,7 +25,7 @@ class SharedAccountHistory_model extends CI_Model {
         $this->db->insert_batch('shared_account_history', $data);
     }
 
-    public function insert($data){
+    public function insert_shared_account_history($data){
         $this->db->set($data);
         return $this->db->insert('shared_account_history', $data);
     }
