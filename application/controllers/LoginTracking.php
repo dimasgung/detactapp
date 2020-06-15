@@ -307,7 +307,7 @@ class LoginTracking extends CI_Controller {
 				// echo $insert_result;
 			}
 
-		   	$this->LoginTrackingHistory_model->update_status_to_done_logintracking_history_by_id($data['LOGINTRACKING_HISTORY_ID']);
+		   	$this->LoginTrackingHistory_model->update_status_to_success_logintracking_history_by_id($data['LOGINTRACKING_HISTORY_ID']);
 
 	        echo json_encode('Prosesing analytic pada tanggal '. $data['PROCESSED_ATTEMPT_DATE'] .' berhasil dilakukan');
 

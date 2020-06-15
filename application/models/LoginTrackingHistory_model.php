@@ -113,8 +113,8 @@ class LoginTrackingHistory_model extends CI_Model {
         return $query->row();
     }
 
-    public function update_status_to_done_logintracking_history_by_id($logintracking_history_id){
-        $hasil=$this->db->query("UPDATE logintracking_history SET STATUS='DONE' WHERE LOGINTRACKING_HISTORY_ID='".$logintracking_history_id."'");
+    public function update_status_to_success_logintracking_history_by_id($logintracking_history_id){
+        $hasil=$this->db->query("UPDATE logintracking_history SET STATUS='SUCCESS' WHERE LOGINTRACKING_HISTORY_ID='".$logintracking_history_id."'");
         return $hasil;
     }
 }
