@@ -2,21 +2,30 @@
 class LoginTrackingHistory_model extends CI_Model {
 
     var $table = 'logintracking_history'; //nama tabel dari database
-    var $column_order = array(null, 'PROCESSED_ATTEMPT_DATE', 'APLIKASI', 'STATUS'); //field yang ada di table user
-    var $column_search = array('PROCESSED_ATTEMPT_DATE', 'APLIKASI', 'STATUS'); //field yang diizin untuk pencarian 
+    var $column_order = array(null, 'PROCESSED_ATTEMPT_DATE', 'APPLICATION', 'STATUS'); //field yang ada di table user
+    var $column_search = array('PROCESSED_ATTEMPT_DATE', 'APPLICATION', 'STATUS'); //field yang diizin untuk pencarian 
     var $order = array('PROCESSED_ATTEMPT_DATE' => 'desc'); // default order 
 
     public function __construct(){
             $this->load->database();
     }
 
-    public function get_logintracking_history($processed_attempt_date = FALSE) {
-        if ($processed_attempt_date === FALSE){
-             $query = $this->db->get('logintracking_history');
-             return $query->result_array();
+    public function get_logintracking_history($processed_attempt_date = FALSE, $application = FALSE) {
+        if ($processed_attempt_date === FALSE && $application = FALSE){
+
+            $this->db->select('LOGINTRACKING_HISTORY_ID, STATUS');
+            $this->db->from($this->table);
+
+            $query = $this->db->get('logintracking_history');
+            return $query->result_array();
         }
 
-        $query = $this->db->get_where('logintracking_history', array('PROCESSED_ATTEMPT_DATE' => $processed_attempt_date));
+        $this->db->select('LOGINTRACKING_HISTORY_ID, STATUS');
+        $this->db->from($this->table);
+        $this->db->where('PROCESSED_ATTEMPT_DATE', $processed_attempt_date);
+        $this->db->where('APPLICATION', $application);
+
+        $query = $this->db->get();
         return $query->row_array();
     }
 
@@ -25,11 +34,12 @@ class LoginTrackingHistory_model extends CI_Model {
 
         $data = array(
             'PROCESSED_ATTEMPT_DATE' => $data_source['PROCESSED_ATTEMPT_DATE'],
-            'APLIKASI' => $data_source['APLIKASI'],
-            'STATUS' => 'INPROGRESS'
+            'APPLICATION' => $data_source['APPLICATION'],
+            'STATUS' => 'FAILED'
         );
-        
-        return $this->db->insert('logintracking_history', $data);
+        $this->db->insert('logintracking_history', $data);
+
+        return $this->db->insert_id();
     }
 
     private function _get_logintracking_history_datatables_query()
@@ -93,4 +103,18 @@ class LoginTrackingHistory_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
+    public function get_logintracking_history_id_by_attemptdate_and_application($attemptdate, $application){
+        $this->db->select('LOGINTRACKING_HISTORY_ID');
+        $this->db->from($this->table);
+        $this->db->where('PROCESSED_ATTEMPT_DATE', $attemptdate);
+        $this->db->where('APPLICATION', $application);
+
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function update_status_to_done_logintracking_history_by_id($logintracking_history_id){
+        $hasil=$this->db->query("UPDATE logintracking_history SET STATUS='DONE' WHERE LOGINTRACKING_HISTORY_ID='".$logintracking_history_id."'");
+        return $hasil;
+    }
 }

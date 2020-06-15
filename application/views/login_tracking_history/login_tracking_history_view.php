@@ -34,7 +34,7 @@
                         <tr>
                             <th>No</th>
                             <th>Processed Attempt Date</th>
-                            <th>Aplikasi</th>
+                            <th>Application</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -46,7 +46,7 @@
                         <tr>
                             <th>No</th>
                             <th>Processed Attempt Date</th>
-                            <th>Aplikasi</th>
+                            <th>Application</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>

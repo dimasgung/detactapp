@@ -60,7 +60,7 @@ class LoginTrackingHistory extends CI_Controller {
             $row = array();
             $row[] = $no;
             $row[] = $field->PROCESSED_ATTEMPT_DATE;
-            $row[] = $field->APLIKASI;
+            $row[] = $field->APPLICATION;
 
             if($field->STATUS == 'INPROGRESS'){
             	$row[] = '<a href="#" class="btn btn-sm btn-primary">'.$field->STATUS .'</a>';       

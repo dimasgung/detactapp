@@ -199,74 +199,123 @@ class LoginTracking extends CI_Controller {
 	    }
 	}
 
-	function analyticProcessing(){
+	// function analyticProcessing(){
+	// 	$data = array(
+	//         'PROCESSED_ATTEMPT_DATE' => $this->input->post('processed_attempt_date'),
+	//         'APPLICATION' => $this->input->post('application')
+	//     );
+
+	//    	$this->load->model('LoginTrackingHistory_model');
+
+	//    	$result = $this->LoginTrackingHistory_model->get_logintracking_history($data['PROCESSED_ATTEMPT_DATE'], $data['PROCESSED_ATTEMPT_DATE']);
+
+	//    	if($result == null){
+
+	// 		$response_API = 'success';
+	//    	} else {
+	//    		$response_API = 'failed';
+	//    	}
+
+	// 	// cek apakah sudah ada data tanggal prosessed tersebut
+	// 	// jika sudah ada, gagal
+
+	//     //Prosess call API model analytic
+
+
+	// 	if($response_API == 'success'){
+
+	//         $data_sidebar['menu_active'] = 'Login Tracking';
+	//         $data_sidebar['sub_menu_active'] = 'Login Tracking History';
+
+	//         $data_success['message'] = "Deteksi sharing account data untuk aplikasi <b>". $data['APPLICATION'] ."</b> pada tanggal <b>". $data['PROCESSED_ATTEMPT_DATE'] . '</b> sedang diproses';
+
+	//         $data['insert_id'] = $this->LoginTrackingHistory_model->add_logintracking_history($data);
+
+	// 		$this->load->view('template/navbar_view');
+	// 		$this->load->view('template/sidebar_view', $data_sidebar);
+	// 		$this->load->view('template/success_information', $data_success);
+	//         $this->load->view('login_tracking_history/login_tracking_history_view', $data);
+	// 		$this->load->view('template/footer_view');
+	// 	} else {
+
+	// 		redirect('LoginTrackingHistory');
+	// 	}
+	// }
+
+	function do_sharing_account_analytic(){
+
 		$data = array(
-	        'PROCESSED_ATTEMPT_DATE' => $this->input->post('processed_attempt_date'),
-	        'APLIKASI' => $this->input->post('aplikasi')
+	        'PROCESSED_ATTEMPT_DATE' => $this->input->post('attemptdate'),
+	        'APPLICATION' => $this->input->post('application')
 	    );
 
 	   	$this->load->model('LoginTrackingHistory_model');
 
-	   	$result = $this->LoginTrackingHistory_model->get_logintracking_history($data['PROCESSED_ATTEMPT_DATE']);
+	   	$result = $this->LoginTrackingHistory_model->get_logintracking_history($data['PROCESSED_ATTEMPT_DATE'], $data['APPLICATION']);
+
+	   	// echo var_dump($result);
 
 	   	if($result == null){
-
-			$response_API = 'success';
+			$response_API = 'success_because_null';
 	   	} else {
-	   		$response_API = 'failed';
+	   		if($result['STATUS'] == 'FAILED'){
+				$response_API = 'success_because_failed';
+	   		} else {
+		   		$response_API = 'failed';
+		   	}
 	   	}
 
-		// cek apakah sudah ada data tanggal prosessed tersebut
-		// jika sudah ada, gagal
+	   	// echo $response_API;
 
-	    //Prosess call API model analytic
+		if($response_API == 'success_because_null' || $response_API == 'success_because_failed'){
 
+			$urlAPISharingAccountAnalytic = 'http://10.62.175.75:8887/';
 
-		if($response_API == 'success'){
+			$json = file_get_contents($urlAPISharingAccountAnalytic);
+			$obj = json_decode($json);
+			// echo $obj[0]->prediction;
 
-	        $data_sidebar['menu_active'] = 'Login Tracking';
-	        $data_sidebar['sub_menu_active'] = 'Login Tracking History';
+			$data['LOGINTRACKING_HISTORY_ID'] = 0;
 
-	        $data_success['message'] = "Deteksi sharing account data untuk aplikasi <b>". $data['APLIKASI'] ."</b> pada tanggal <b>". $data['PROCESSED_ATTEMPT_DATE'] . '</b> sedang diproses';
+			if($response_API == 'success_because_null'){
+		        $data['LOGINTRACKING_HISTORY_ID'] = $this->LoginTrackingHistory_model->add_logintracking_history($data);
+			} else if ($response_API == 'success_because_failed') {
+				$data['LOGINTRACKING_HISTORY_ID'] = $result['LOGINTRACKING_HISTORY_ID'];
+			}
 
+		   	$this->load->model('AnalyticResult_model');
 
-	        $data['insert_id'] = $this->LoginTrackingHistory_model->add_logintracking_history($data);
+			foreach ($obj as $userPrediction) {			
 
-			$this->load->view('template/navbar_view');
-			$this->load->view('template/sidebar_view', $data_sidebar);
-			$this->load->view('template/success_information', $data_success);
-	        $this->load->view('login_tracking_history/login_tracking_history_view', $data);
-			$this->load->view('template/footer_view');
+				$prediction_result = 'NORMAL';
+
+				if($userPrediction->prediction == 1){
+					$prediction_result = 'SHARED ACCOUNT';
+				}
+
+				$data_analytic_result =array(
+		        'LOGINTRACKING_HISTORY_ID' => $data['LOGINTRACKING_HISTORY_ID'],
+		        'ATTEMPTDATE' => $data['PROCESSED_ATTEMPT_DATE'],
+		        'APPLICATION' => $data['APPLICATION'],
+		        'USERID' => $userPrediction->user_id,
+		        'PREDICTION' => $userPrediction->prediction,
+		        'PREDICTION_RESULT' => $prediction_result,
+		        'STATUS' => 'OPEN'
+		    	);
+
+				$insert_result = $this->AnalyticResult_model->insert_analytic_result_from_platform($data_analytic_result);
+				// echo $insert_result;
+			}
+
+		   	$this->LoginTrackingHistory_model->update_status_to_done_logintracking_history_by_id($data['LOGINTRACKING_HISTORY_ID']);
+
+	        echo json_encode('Prosesing analytic pada tanggal '. $data['PROCESSED_ATTEMPT_DATE'] .' berhasil dilakukan');
+
 		} else {
 
-			redirect('LoginTrackingHistory');
+	        echo json_encode('Prosesing analytic pada tanggal ' .$data['PROCESSED_ATTEMPT_DATE'] . ' telah dilakukan sebelumnya.');
 		}
+
+
 	}
-
-	// function get_data_logintracking_history()
- //    {
- //        $list = $this->LoginTracking_model->get_logintracking_history_datatables();
- //        $data = array();
- //        $no = $_POST['start'];
- //        foreach ($list as $field) {
- //            $no++;
- //            $row = array();
- //            $row[] = $no;
- //            $row[] = $field->ATTEMPTDATE;
- //            $row[] = $field->APLIKASI;
- //            $row[] = $field->STATUS;
- 
- //            $data[] = $row;
- //        }
- 
- //        $output = array(
- //            "draw" => $_POST['draw'],
- //            "recordsTotal" => $this->LoginTracking_model->count_all(),
- //            "recordsFiltered" => $this->LoginTracking_model->count_filtered(),
- //            "data" => $data,
- //        );
- //        //output dalam format JSON
- //        echo json_encode($output);
- //    }
-
 }

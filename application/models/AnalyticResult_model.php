@@ -122,4 +122,9 @@ class AnalyticResult_model extends CI_Model {
         $this->db->delete('analytic_result');
     }
 
+    public function insert_analytic_result_from_platform($data_source){
+        $this->db->set($data_source);
+        return $this->db->insert('analytic_result', $data_source);
+    }
+
 }

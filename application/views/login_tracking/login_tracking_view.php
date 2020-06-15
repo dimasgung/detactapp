@@ -25,7 +25,7 @@
 
           <div class="col-6">
               <div class="card col-6">
-                  <form action="<?php echo base_url();?>LoginTracking/analyticProcessing" method="post">
+                  <!-- <form action="<?php echo base_url();?>LoginTracking/analyticProcessing" method="post"> -->
                   <!-- select -->
                     <div class="form-group">
                         <label>Tanggal Login</label>
@@ -41,14 +41,14 @@
                     </div>
                     <div class="form-group">
                         <label>Aplikasi</label>
-                        <select class="form-control" name='aplikasi'>
+                        <select class="form-control" name='application' id='processed_application'>
                             <option value='NOSSA'>NOSSA</option>
                         </select>
                     </div>
                     <div class="form-group">
-                      <button type="submit" class="btn btn-sm btn-success">Processing Sharing Account Analytics</button>
+                      <button type="submit" class="btn btn-sm btn-success" id='processing-analytic'>Processing Sharing Account Analytics</button>
                     </div>
-                  </form>
+                  <!-- </form> -->
               </div>
           </div>
           <div class="col-12">
@@ -91,7 +91,48 @@
     </section>
     <!-- /.content -->
   </div>
- 
+   <!--MODAL Create-->
+  <div class="modal fade" id="modal-processing-analytic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Do Sharing Account Analytic</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+              </div>
+              <form class="form-horizontal">
+              <div class="modal-body">
+                                     
+                      <div class="alert alert-primary"><p>Apakah Anda yakin untuk melakukan proses sharing account analytic (saat ini berlaku untuk data H-1 pada tanggal saat ini)?</p></div>
+                                   
+              </div>
+              <div class="modal-footer">
+                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                  <input class="btn-processing-analytic btn btn-primary" id="btn-processing-analytic" value="Do Sharing Account Analytic">
+              </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+    <!--MODAL Create-->
+  <div class="modal fade" id="loading-processing-analytic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Processing Analytic Data</h4>
+              </div>
+              <form class="form-horizontal">
+              <div class="modal-body">
+                                     
+                      <div class="alert alert-success" id="loading-text-modal"><p>Sedang memproses data analytic. Harap Tunggu </p></div>
+                                   
+              </div>
+              <div class="modal-footer"  id="result-text-modal">
+              </div>
+              </form>
+          </div>
+      </div>
+  </div>
 <script src="<?php echo base_url();?>assets/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url();?>assets/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
@@ -135,6 +176,123 @@
             });
         }
  
+
+      $('#processing-analytic').click(function(){
+            $('#modal-processing-analytic').modal('show');
+      });
+
+
+      $('#btn-processing-analytic').click(function(){
+          running_processing_analytic();
+      });
+
+      function get_day_min_1(){
+          today = new Date();
+          var dd = today.getDate()-1;
+          var mm = today.getMonth()+1; //As January is 0.
+          var yyyy = today.getFullYear();
+
+          if(dd<10) dd='0'+dd;
+          if(mm<10) mm='0'+mm;
+
+          return yyyy + '-' + mm + '-' + dd;
+      }
+
+      function running_processing_analytic(){
+
+          $('#loading-processing-analytic').modal('show');
+
+          // jika bisa pilih
+          //attemptdate = $('#processed_attempt_date').val();
+
+          // default h-1
+          var attemptdate = get_day_min_1();
+          var application = $('#processed_application').val();
+
+          var request = $.ajax(  {
+              type : "POST",
+              url  : "<?php echo base_url('LoginTracking/do_sharing_account_analytic')?>",
+              //dataType : "JSON",,
+              data : {attemptdate:attemptdate, application:application},
+              success: function(data){
+                alert(data)
+
+                finish_modal();
+              },
+              error: function(data){
+                alert("get data gagal : " + data);
+
+                finish_modal();
+              }
+          });
+
+          // var inputs = $('.checkbox-grid:checked');
+          // var totalProses = $('.checkbox-grid:checked').length;
+          // var jumlahProsesSukses = 0;
+          // var jumlahProsesFailed = 0;
+          // var promises = [];
+
+          // var tempValue = '';
+          // var userid = '';
+          // var attempdate = '';
+
+          // for(var i = 0, l = inputs.length; i < l; ++i) {
+
+          //   tempValue = JSON.parse(inputs[i].value);
+
+          //   shared_account_history_id = tempValue['shared_account_history_id'];
+          //   userid = tempValue['userid'];
+          //   attempdate = tempValue['attempdate'];
+          //   application = tempValue['application'];
+
+          //   // alert(userid + ' '+ attempdate);
+
+          //   var request = $.ajax(  {
+          //       type : "POST",
+          //       url  : "<?php echo base_url('SharedAccountHistory/send_email_confirmation')?>",
+          //       dataType : "JSON",
+          //       data : {userid: userid, attempdate:attempdate, application:application, shared_account_history_id:shared_account_history_id},
+          //       success: function(data){
+          //         // alert("sukses " + data);
+          //         jumlahProsesSukses++;
+          //         $('#loading-text-modal').html("Harap Tunggu. Telah mengirim email konfirmasi sebanyak " + jumlahProsesSukses + " dari " + totalProses + ". Jangan di refresh.</br> Jika proses berhenti silahkan di refresh." );
+
+          //         if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
+          //           $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
+          //           finish_modal();
+          //         }
+
+          //       },
+          //       error: function(data){
+          //         // alert("gagal " +data);
+          //         jumlahProsesFailed++;
+          //         $('#loading-text-modal-error').html("Error / Intermitten sebanyak : " + jumlahProsesFailed);
+
+          //         if(jumlahProsesSukses + jumlahProsesFailed == totalProses ){
+          //           $('#result-text-modal').html('<input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">');
+          //           finish_modal();
+          //         }
+
+          //       }
+          //   });
+
+          //   promises.push(request);
+            
+          // }
+  
+          // $.when.apply(null, promises).done(function() {
+
+            // alert('Pengiriman email selesai di proses');
+
+          // })
+      }
+
+      function finish_modal(){
+        // alert('Analisis Sharing Account selesai dilakukan');
+        $('#loading-processing-analytic').modal('hide');
+        $('#modal-processing-analytic').modal('hide');
+        location.reload();
+      }
     });
  
 </script>

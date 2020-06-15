@@ -110,6 +110,10 @@ class AnalyticResult extends CI_Controller {
 
         } 
 
+        $this->load->model('LoginTrackingHistory_model');
+        $logintracking_history_id = $this->LoginTrackingHistory_model->get_logintracking_history_id_by_attemptdate_and_application($attemptdate, $application);
+        $this->LoginTrackingHistory_model->update_status_to_done_logintracking_history_by_id($logintracking_history_id->LOGINTRACKING_HISTORY_ID);
+
         if($attemptdate == null){
                 $this->AnalyticResult_model->delete_analytic_result_all_data();
         } else {
