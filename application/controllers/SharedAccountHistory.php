@@ -122,6 +122,8 @@ class SharedAccountHistory extends CI_Controller {
         $attempdate = $this->input->post('attempdate');
         $application = $this->input->post('application');
 
+        $total_record = $this->SharedAccountHistory_model->get_count_shared_account_history_sent_received_done_by_user_id_and_application($userid, $application);
+
         $this->load->library('email');//panggil library email codeigniter
 
         $config = array(
@@ -173,12 +175,16 @@ class SharedAccountHistory extends CI_Controller {
         $this->email->message($message);
         
         //proses kirim email
-        if($this->email->send()){
-          $result = $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'SENT');
-          echo json_encode('kirim email berhasil ' + $result);
-        }
-        else{
-          $result = $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'FAILED');
+        if($total_record < 1){
+            if($this->email->send()){
+              $result = $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'SENT');
+              echo json_encode('kirim email berhasil ' + $result);
+            } else{
+              $result = $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_by_id($shared_account_history_id, 'FAILED');
+              echo json_encode('kirim email gagal ' + $result);
+            }
+        } else{
+          $result = $this->SharedAccountHistory_model->update_status_confirmation_shared_account_history_and_description_by_id($shared_account_history_id, 'FAILED', 'Userid pada aplikasi ini Sudah pernah dikirim email konfirmasi sebelumnya. ');
           echo json_encode('kirim email gagal ' + $result);
         }
   }

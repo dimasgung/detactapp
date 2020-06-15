@@ -460,6 +460,12 @@ class SharedAccountHistory_model extends CI_Model {
         return $hasil;
     }
  
+
+    function update_status_confirmation_shared_account_history_and_description_by_id($shared_account_history_id,$status,$description){
+        $hasil=$this->db->query("UPDATE shared_account_history SET STATUS_CONFIRMATION='".$status."', DESCRIPTION='".$description."' WHERE SHARED_ACCOUNT_HISTORY_ID='".$shared_account_history_id."'");
+        return $hasil;
+    }
+
     function update_status_confirmation_shared_account_history_after_receiving_by_id($shared_account_history_id, $status_confirmation,$is_shared_confirmation, $action_confirmation){
         $hasil=$this->db->query("UPDATE shared_account_history SET STATUS_CONFIRMATION='".$status_confirmation."', IS_SHARED_CONFIRMATION='". $is_shared_confirmation ."', ACTION_CONFIRMATION='". $action_confirmation ."' WHERE SHARED_ACCOUNT_HISTORY_ID='".$shared_account_history_id."'");
         return $hasil;
@@ -481,6 +487,17 @@ class SharedAccountHistory_model extends CI_Model {
         $this->db->where('APPLICATION', $application);
         $this->db->where('STATUS_CONFIRMATION in ("RECEIVED","DONE")');
         $this->db->where('IS_SHARED_CONFIRMATION', 'YES');
+        return $this->db->count_all_results();
+    }
+
+    public function get_count_shared_account_history_sent_received_done_by_user_id_and_application($userid, $application)
+    {
+        $this->db->select('USERID, APPLICATION, COUNT(*) AS TOTAL');
+        $this->db->from($this->table);
+        $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE", "SENT")');
+        $this->db->where('USERID', $userid);
+        $this->db->where('APPLICATION', $application);
+        $this->db->group_by('USERID, APPLICATION');
         return $this->db->count_all_results();
     }
 
