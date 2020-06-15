@@ -36,7 +36,6 @@
                 <table id="table" class="table table-striped"  cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th><input style="width:30px; height:30px;" type="checkbox" id="check-all" class="checkbox-all"> ALL</th>
                             <th>NO</th>
                             <th>USERID</th>
                             <th>APPLICATION</th>
@@ -48,7 +47,6 @@
          
                     <tfoot>
                         <tr>
-                            <th>Select</th>
                             <th>NO</th>
                             <th>USERID</th>
                             <th>APPLICATION</th>

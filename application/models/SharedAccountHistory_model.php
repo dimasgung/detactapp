@@ -6,8 +6,8 @@ class SharedAccountHistory_model extends CI_Model {
     var $column_search = array('ATTEMPTDATE','APPLICATION', 'USERID', 'STATUS_CONFIRMATION', 'ACTION_CONFIRMATION', 'IS_SHARED_CONFIRMATION'); //field yang diizin untuk pencarian 
     var $order = array('ATTEMPTDATE' => 'desc'); // default order 
 
-    var $column_order_top = array(null, null, 'USERID', 'APPLICATION', 'TOTAL_HISTORY');
-    var $column_search_top = array('APPLICATION', 'USERID', 'TOTAL_HISTORY'); //field yang diizin untuk pencarian 
+    var $column_order_top = array(null, 'USERID', 'APPLICATION', 'TOTAL_HISTORY');
+    var $column_search_top = array('APPLICATION', 'USERID'); //field yang diizin untuk pencarian 
     var $order_top = array('TOTAL_HISTORY' => 'desc'); // default order 
 
     public function __construct(){

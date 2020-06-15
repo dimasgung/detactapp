@@ -347,7 +347,6 @@ class SharedAccountHistory extends CI_Controller {
             $no++;
             $row = array();
 
-            $row[] = '';
             $row[] = $no;
             $row[] = $field->USERID;
             $row[] = $field->APPLICATION;
@@ -375,7 +374,6 @@ class SharedAccountHistory extends CI_Controller {
             $no++;
             $row = array();
 
-            $row[] = '';
             $row[] = $no;
             $row[] = $field->USERID;
             $row[] = $field->APPLICATION;
