@@ -41,10 +41,10 @@
                             <th>USERID</th>
                             <th>APPLICATION</th>
                             <th>ATTEMPTDATE</th>
-                            <th>IS SHARED CONFIRMATION</th>
-                            <th>ACTION CONFIRMATION</th>
                             <th>STATUS CONFIRMATION</th>
                             <th>DESCRIPTION</th>
+                            <th>ACTION CONFIRMATION</th>
+                            <th>IS SHARED CONFIRMATION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,10 +57,10 @@
                             <th>USERID</th>
                             <th>APPLICATION</th>
                             <th>ATTEMPTDATE</th>
-                            <th>IS SHARED CONFIRMATION</th>
-                            <th>ACTION CONFIRMATION</th>
                             <th>STATUS CONFIRMATION</th>
                             <th>DESCRIPTION</th>
+                            <th>ACTION CONFIRMATION</th>
+                            <th>IS SHARED CONFIRMATION</th>
                         </tr>
                     </tfoot>
                 </table>

@@ -320,13 +320,11 @@ class SharedAccountHistory extends CI_Controller {
             $row[] = $field->USERID;
             $row[] = $field->APPLICATION;
             $row[] = $field->ATTEMPTDATE;
-            $row[] = $field->IS_SHARED_CONFIRMATION;
-            $row[] = $field->ACTION_CONFIRMATION;
-
             $row[] = '<a href="#" class="btn btn-sm btn-success">'.$field->STATUS_CONFIRMATION .'</a>';       
-
             $row[] = $field->DESCRIPTION;
- 
+            $row[] = $field->ACTION_CONFIRMATION;
+            $row[] = $field->IS_SHARED_CONFIRMATION;
+
             $data[] = $row;
         }
  
