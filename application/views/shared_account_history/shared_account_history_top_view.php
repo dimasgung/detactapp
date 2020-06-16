@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Shared Account History Top 25 Confirmed Case</h1>
+            <h1>Data Shared Account History Top 25 last 7 days</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -29,7 +29,7 @@
               <!-- <button type="button" class="btn btn-danger btn-sm" id='delete-confirmation'>delete zero user-id</button> -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Shared Account History Data Top 25 Confirmed Case</h3>
+                <h3 class="card-title">Shared Account History Data Top 25 last 7 days</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

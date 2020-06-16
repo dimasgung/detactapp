@@ -303,7 +303,8 @@ class SharedAccountHistory_model extends CI_Model {
 
         $this->db->from($this->table);
 
-        $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        // $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        $this->db->where('DATE(ATTEMPTDATE) > (NOW() - INTERVAL 7 DAY)');
 
  
         $i = 0;
@@ -365,7 +366,8 @@ class SharedAccountHistory_model extends CI_Model {
     {
         $this->db->select('USERID, APPLICATION, COUNT(*) AS TOTAL_HISTORY');
         $this->db->from($this->table);
-        $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        // $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        $this->db->where('DATE(ATTEMPTDATE) > (NOW() - INTERVAL 7 DAY)');
         $this->db->group_by('USERID, APPLICATION');
         $this->db->limit(25);
         return $this->db->count_all_results();
