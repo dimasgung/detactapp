@@ -405,7 +405,7 @@
               "serverSide": true, 
               "order": [], 
               "ajax": {
-                  "url": "<?php echo site_url('SharedAccountHistory/get_data_shared_account_history_action')?>",
+                  "url": "<?php echo site_url('SharedAccountHistory/get_data_shared_account_history_action_limit')?>",
                   "type": "POST",
                   "data": function (d) {
                       // renderedData = d.length;
