@@ -149,7 +149,8 @@
             </div>
             <!-- /.card -->
           </div>
-                    <div class="col-6">
+
+          <div class="col-6">
             <div class="card">
               <div class="card-header border-transparent">
                 <h3 class="card-title"><b>Top 25 Detected Last 7 Days</b></h3>
@@ -188,6 +189,64 @@
             </div>
             <!-- /.card -->
           </div>
+
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header border-transparent">
+                <h3 class="card-title"><b>10 Latest Confirmation Cases</b></h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="table-latest-confirmation" class="table m-0">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>USERID</th>
+                            <th>APPLICATION</th>
+                            <th>ATTEMPTDATE</th>
+                            <th>STATUS CONFIRMATION</th>
+                            <th>DESCRIPTION</th>
+                            <th>ACTION CONFIRMATION</th>
+                            <th>IS SHARED CONFIRMATION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+         
+                    <tfoot>
+                        <tr>
+                            <th>NO</th>
+                            <th>USERID</th>
+                            <th>APPLICATION</th>
+                            <th>ATTEMPTDATE</th>
+                            <th>STATUS CONFIRMATION</th>
+                            <th>DESCRIPTION</th>
+                            <th>ACTION CONFIRMATION</th>
+                            <th>IS SHARED CONFIRMATION</th>
+                        </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- /.table-responsive -->
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                <a href="<?php echo base_url();?>SharedAccountHistory/action" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+              </div>
+              <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+          </div>
+
         </div>
       </div>
     </section>
@@ -325,6 +384,34 @@
                   }
               },
               "lengthMenu": [5],
+               
+              "columnDefs": [
+              { 
+                  "targets": [ 0 ], 
+                  "orderable": false, 
+              },
+              ],
+          });
+        }
+
+
+        tampil_datatable_action();
+
+        function tampil_datatable_action(){
+          //datatables
+          tableTopDetected = $('#table-latest-confirmation').DataTable({ 
+   
+              "processing": true, 
+              "serverSide": true, 
+              "order": [], 
+              "ajax": {
+                  "url": "<?php echo site_url('SharedAccountHistory/get_data_shared_account_history_action')?>",
+                  "type": "POST",
+                  "data": function (d) {
+                      // renderedData = d.length;
+                  }
+              },
+              "lengthMenu": [10],
                
               "columnDefs": [
               { 

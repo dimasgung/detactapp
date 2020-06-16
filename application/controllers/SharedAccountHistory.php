@@ -344,6 +344,37 @@ class SharedAccountHistory extends CI_Controller {
         echo json_encode($output);
   }
 
+  function get_data_shared_account_history_action_limit(){
+
+        $list = $this->SharedAccountHistory_model->get_shared_account_history_datatables_action_limit();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $field) {
+            $no++;
+            $row = array();
+
+            $row[] = $no;
+            $row[] = $field->USERID;
+            $row[] = $field->APPLICATION;
+            $row[] = $field->ATTEMPTDATE;
+            $row[] = '<a href="#" class="btn btn-sm btn-success">'.$field->STATUS_CONFIRMATION .'</a>';       
+            $row[] = $field->DESCRIPTION;
+            $row[] = $field->ACTION_CONFIRMATION;
+            $row[] = $field->IS_SHARED_CONFIRMATION;
+
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->SharedAccountHistory_model->count_all_action_limit(),
+            "recordsFiltered" => $this->SharedAccountHistory_model->count_filtered_action_limit(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+  }
+
   function get_data_shared_account_history_top(){
 
         $list = $this->SharedAccountHistory_model->get_shared_account_history_datatables_top();
