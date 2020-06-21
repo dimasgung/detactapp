@@ -21,7 +21,7 @@
     <section class="content">
 
       <div class="container-fluid">
-                <div class="row">
+        <div class="row">
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
@@ -31,7 +31,7 @@
                 <p>Need Confirmation</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fa fa-exclamation-triangle"></i>
               </div>
               <a href="<?php echo base_url();?>SharedAccountHistory" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -46,7 +46,7 @@
                 <p>Sent</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fas fa-envelope"></i>
               </div>
               <a href="<?php echo base_url();?>SharedAccountHistory/sent" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -58,10 +58,10 @@
               <div class="inner">
                 <h3 id="count-failed">0</h3>
 
-                <p>Failed</p>
+                <p>Pending</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="fas fa-calendar"></i>
               </div>
               <a href="<?php echo base_url();?>SharedAccountHistory/failed" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -77,7 +77,7 @@
                 <p>Received</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="fas fa-download"></i>
               </div>
               <a href="<?php echo base_url();?>SharedAccountHistory/action" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -86,6 +86,7 @@
         </div>
 
         <div class="row">
+
           <div class="col-12">
             <!-- Default box -->
             <div class="card">
@@ -109,6 +110,75 @@
               <!-- /.card-footer-->
             </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- PIE CHART -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"><b>Shared Account Detection Accuracy Performance (Aplikasi : NOSSA)</b></h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <h6 style="text-align: center"><b>*In Percentage (%)</b><h6>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <div class="col-md-6">
+            <div class="card card-primary">
+                  
+              <div class="card-header">
+                <h3 class="card-title"><b>Need Action (Aplikasi : NOSSA)</b></h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+              </div>
+
+
+              <div class="card-body">
+                <div class="info-box mb-3 bg-danger">
+
+                  <span class="info-box-icon"><i class="fas fa-ban"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Suspend</span>
+                    <span class="info-box-number" id="suspend-detail">0</span>
+                  </div>
+                </div>
+
+                <div class="info-box mb-3 bg-warning">
+                  <span class="info-box-icon"><i class="fas fa-cog"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Change Password</span>
+                    <span class="info-box-number" id="change-password-detail">0</span>
+                  </div>
+                </div>
+
+                <div class="info-box mb-3 bg-secondary">
+                  <span class="info-box-icon"><i class="fas fa-info"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text" >Do Nothing</span>
+                    <span class="info-box-number" id="do-nothing-detail">0</h6>
+                  </div>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
 
           <div class="col-6">
             <div class="card">
@@ -256,6 +326,8 @@
 
 <script src="<?php echo base_url();?>assets/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url();?>assets/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+<!-- ChartJS -->
+<script src="<?php echo base_url();?>assets/AdminLTE/plugins/chart.js/Chart.min.js"></script>
 <script type="text/javascript">
 
     var tableTopAllDetected;
@@ -394,7 +466,6 @@
           });
         }
 
-
         tampil_datatable_action();
 
         function tampil_datatable_action(){
@@ -420,6 +491,104 @@
               },
               ],
           });
+        }
+
+        tampil_count_is_shared_confirmation_all();
+
+        var data_is_shared_confirmation =[];
+        var data_count_is_shared_confirmation =[];
+
+        function tampil_count_is_shared_confirmation_all(){
+
+          // alert('haha');
+          //datatables
+            var request = $.ajax(  {
+                type : "POST",
+                url  : "<?php echo base_url('SharedAccountHistory/get_data_count_is_shared_confirmation_all')?>",
+                // dataType : "JSON",
+                success: function(data){
+
+                  var parseDataIsSharedConfirmation = JSON.parse(data);
+
+                  // alert('test lho');
+
+                  // alert(parseDataIsSharedConfirmation['data_status']['0']);
+
+                  data_is_shared_confirmation = parseDataIsSharedConfirmation['data_status'];
+                  data_count_is_shared_confirmation = parseDataIsSharedConfirmation['data_count'];
+
+                  // alert(data_is_shared_confirmation[0]);
+                  feed_to_chart_pie_confirmation_status(data_is_shared_confirmation, data_count_is_shared_confirmation);
+                },
+                error: function(data){
+
+                }
+            });
+        }
+
+        function feed_to_chart_pie_confirmation_status(data_is_shared_confirmation, data_count_is_shared_confirmation){
+
+          var donutData = {
+            labels : data_is_shared_confirmation,
+            datasets: [
+              {
+                data: data_count_is_shared_confirmation,
+                backgroundColor : ['#f56954', '#f39c12', '#00a65a', '#00c0ef', '#3c8dbc', '#d2d6de'],
+              }
+            ]
+          }
+
+          //-------------
+          //- PIE CHART -
+          //-------------
+          // Get context with jQuery - using jQuery's .get() method.
+          var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+          var pieData        = donutData;
+          var pieOptions     = {
+            maintainAspectRatio : false,
+            responsive : true,
+          }
+          //Create pie or douhnut chart
+          // You can switch between pie and douhnut using the method below.
+          var pieChart = new Chart(pieChartCanvas, {
+            type: 'pie',
+            data: pieData,
+            options: pieOptions      
+          })
+        }
+
+        tampil_count_action_confirmation_all();
+
+        function tampil_count_action_confirmation_all(){
+
+          // alert('haha');
+          //datatables
+            var request = $.ajax(  {
+                type : "POST",
+                url  : "<?php echo base_url('SharedAccountHistory/get_data_count_action_confirmation_all')?>",
+                // dataType : "JSON",
+                success: function(data){
+
+
+                  var parseDataActionConfirmation = JSON.parse(data);
+                  // alert(parseDataActionConfirmation['SUSPEND']);
+
+                  if (parseDataActionConfirmation['SUSPEND'] !== 'undefined') {
+                    $('#suspend-detail').html(parseDataActionConfirmation['SUSPEND']);
+                  }
+
+                  if (parseDataActionConfirmation['CHANGE_PASSWORD'] !== 'undefined') {
+                    $('#change-password-detail').html(parseDataActionConfirmation['CHANGE_PASSWORD']);
+                  }
+
+                  if (parseDataActionConfirmation['DO_NOTHING'] !== 'undefined') {
+                    $('#do-nothing-detail').html(parseDataActionConfirmation['DO_NOTHING']);
+                   }
+                },
+                error: function(data){
+
+                }
+            });
         }
 
     });

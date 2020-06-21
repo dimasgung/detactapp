@@ -570,4 +570,48 @@ class SharedAccountHistory_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
+    // public function get_distinct_is_shared_confirmation_status() {
+
+    //     $query = $this->db->select("distinct IS_SHARED_CONFIRMATION");
+    //     $this->db->from($this->table);
+    //     $query=$this->db->get();
+
+    //     return $query->result_array();
+    // }
+
+
+    public function count_all_received_and_done()
+    {
+        $this->db->from($this->table);
+        $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        return $this->db->count_all_results();
+    }
+
+    public function count_is_shared_confirmation_by_application($application = null){
+        $this->db->select('IS_SHARED_CONFIRMATION, COUNT(*) AS TOTAL_IS_SHARED_CONFIRMATION');
+        $this->db->from($this->table);
+        $this->db->where('STATUS_CONFIRMATION IN ("RECEIVED", "DONE")');
+        if($application != null){
+            $this->db->where('APPLICATION', $application);
+        }
+        $this->db->group_by('IS_SHARED_CONFIRMATION');
+        
+        $query=$this->db->get();
+
+        return $query->result();
+    }
+
+    public function count_action_confirmation_received_by_application($application = null){
+        $this->db->select('ACTION_CONFIRMATION, COUNT(*) AS TOTAL_ACTION_CONFIRMATION');
+        $this->db->from($this->table);
+        $this->db->where('STATUS_CONFIRMATION', 'RECEIVED');
+        if($application != null){
+            $this->db->where('APPLICATION', $application);
+        }
+        $this->db->group_by('ACTION_CONFIRMATION');
+        
+        $query=$this->db->get();
+
+        return $query->result();
+    }
 }

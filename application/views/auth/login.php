@@ -21,12 +21,16 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
+      <div class="d-flex justify-content-center h-100">
+        <div class="brand_logo_container">
+          <img src="<?php echo base_url();?>assets/img/logo-detact.png" class="brand_logo" alt="Logo" style='display: block; margin-left: auto; margin-right: auto;  width: 40%;'>
+        </div>
+      </div>
     <a>Welcome to <b>Detact</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-
       <p class="login-box-msg">Sign in to start your session</p>
       <p class="login-box-msg"><?php echo $message;?></p>
       <?php echo form_open('Auth/login'); ?>
@@ -82,6 +86,10 @@
     </div>
     <!-- /.login-card-body -->
   </div>
+      <div class="float-right d-none d-sm-block">
+      <b>Version</b> 1.0
+    </div>
+    <strong>Copyright &copy; 2020 <a href="#">Fraud Cheater Team</a>.</strong> Supported by Hack Idea 5, Telkom Indonesia
 </div>
 <!-- /.login-box -->
 

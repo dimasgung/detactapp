@@ -429,6 +429,44 @@ class SharedAccountHistory extends CI_Controller {
         echo json_encode($output);
   }
 
+  function get_data_count_is_shared_confirmation_all(){
+
+        $list = $this->SharedAccountHistory_model->count_is_shared_confirmation_by_application('NOSSA');
+        $total_count_is_shared_confirmation = $this->SharedAccountHistory_model->count_all_received_and_done();
+
+        $data_status = array();
+        $data_count = array();
+
+        foreach ($list as $field) {
+ 
+            $data_status[] = $field->IS_SHARED_CONFIRMATION;
+            $data_count[] = ($field->TOTAL_IS_SHARED_CONFIRMATION/$total_count_is_shared_confirmation)*100 ;
+        }
+ 
+        $output = array(
+            "data_status" => $data_status,
+            "data_count" => $data_count,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+  }
+
+  function get_data_count_action_confirmation_all(){
+
+        $list = $this->SharedAccountHistory_model->count_action_confirmation_received_by_application('NOSSA');
+
+        $data_status = array();
+
+        foreach ($list as $field) {
+
+            $data_status[$field->ACTION_CONFIRMATION] = $field->TOTAL_ACTION_CONFIRMATION;
+        }
+ 
+        $output = $data_status;
+        //output dalam format JSON
+        echo json_encode($output);
+  }
+
   public function postCURL($_url, $_param){
 
         $postData = '';
